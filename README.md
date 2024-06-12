@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @metelness or Adam Curry :)
+- 👋 Hi, I’m Adam Curry :)
 - 👀 I’m interested in Data Science, Data Analysis, Crypto
 - 🌱 I’m currently learning data science and crypto basics... solidity is next. 
 - 💞️ I’m looking to collaborate on ...
