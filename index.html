@@ -6,80 +6,112 @@
     <title>My Project Portfolio</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
             display: flex;
+            flex-wrap: wrap;
         }
-        .sidebar {
-            width: 250px;
-            background-color: #f4f4f4;
+        .header {
+            width: 100%;
+            background-color: #1E88E5; /* Teal-like header color */
+            color: white;
             padding: 20px;
-            height: 100vh;
-            position: fixed;
+            text-align: center;
         }
-        .sidebar img {
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+        .content {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+        }
+        .bio {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-right: 20px;
+            max-width: 300px;
+        }
+        .bio img {
             width: 100%;
             border-radius: 50%;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        .sidebar h2 {
-            font-size: 20px;
-            color: #333;
+        .bio h2 {
+            font-size: 1.5em;
+            color: #1E88E5;
+            margin: 0 0 10px;
         }
-        .sidebar p {
-            font-size: 14px;
+        .bio p {
+            font-size: 0.9em;
+            line-height: 1.5;
             color: #666;
         }
-        .main-content {
-            margin-left: 290px;
+        .projects {
+            flex: 3;
             padding: 20px;
-            width: calc(100% - 290px);
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #333;
+        .projects h2 {
+            color: #1E88E5;
+            font-size: 1.8em;
+            margin-top: 0;
         }
         .project-link {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
+            display: block;
             text-decoration: none;
-            color: #007bff;
-        }
-        .project-link img {
-            width: 100px;
-            height: 100px;
-            margin-right: 15px;
-            border: 1px solid #ddd;
+            color: #1E88E5;
+            font-size: 1.2em;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            transition: color 0.3s;
         }
         .project-link:hover {
-            text-decoration: underline;
+            color: #1565C0; /* Darker teal on hover */
+        }
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            .bio {
+                margin-right: 0;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="assets/profile.jpg" alt="Profile Picture">
-        <h2>Adam Curry</h2>
-        <p>Data professional with over 10 years of experience in analytics, machine learning, and database management. Skilled in SQL, SAS, Python, and Tableau. Passionate about solving complex problems with data.</p>
+    <div class="header">
+        <h1>Your Name</h1>
+        <p>Analytics Consultant</p>
+        <p>Collect, process, analyze, and present data - from supporting everyday business decisions to fueling global change.</p>
     </div>
-    <div class="main-content">
-        <h1>My Project Portfolio</h1>
-        <p>Explore my projects showcasing data management, analytics, and machine learning.</p>
-        <a href="conflict-of-interest.html" class="project-link">
-            <img src="assets/coi-graphic.png" alt="Conflict of Interest Graphic">
-            <div>
-                <h3>Conflict of Interest Detection</h3>
-                <p>Used Teradata SQL and SAS to identify potential conflicts in employee transactions.</p>
-            </div>
-        </a>
-        <a href="presence-detection.html" class="project-link">
-            <img src="assets/pd-graphic.png" alt="Presence Detection Graphic">
-            <div>
-                <h3>Presence Detection System</h3>
-                <p>Developed a system using Python ML, Teradata SQL, and SAS to detect individual presence during interactions.</p>
-            </div>
-        </a>
+    <div class="content">
+        <div class="bio">
+            <img src="assets/profile.jpg" alt="Your Profile Picture">
+            <h2>About Me</h2>
+            <p>I am a highly experienced data professional with a background in database management, analytics, and machine learning. Skilled in Teradata, SAS, Python, and Tableau, I have worked on diverse projects to solve complex data challenges.</p>
+        </div>
+        <div class="projects">
+            <h2>My Projects</h2>
+            <a href="conflict-of-interest.html" class="project-link">Conflict of Interest Detection</a>
+            <a href="presence-detection.html" class="project-link">Presence Detection System</a>
+            <!-- Add more project links as needed -->
+        </div>
     </div>
 </body>
 </html>
