@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presence Detection System</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Presence Detection System</h1>
+    <p><a href="index.html">Back to Home</a></p>
+    <h2>Project Overview</h2>
+    <p>Built a system to detect if an individual was present during interactions, combining Python ML for prediction, Teradata SQL for data storage, and SAS for validation.</p>
+    <h2>Tools Used</h2>
+    <ul>
+        <li>Python ML: Built a logistic regression model to predict presence</li>
+        <li>Teradata SQL: Stored and queried interaction data</li>
+        <li>SAS: Validated model outputs</li>
+    </ul>
+    <h2>Sample Python Code</h2>
+    <pre>
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+
+# Load data (simulated)
+data = pd.read_csv("interaction_data.csv")
+X = data[["interaction_duration", "signal_strength"]]
+y = data["is_present"]
+
+# Train model
+model = LogisticRegression()
+model.fit(X, y)
+    </pre>
+</body>
+</html>

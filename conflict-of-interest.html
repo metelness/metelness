@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conflict of Interest Detection</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Conflict of Interest Detection</h1>
+    <p><a href="index.html">Back to Home</a></p>
+    <h2>Project Overview</h2>
+    <p>Developed a system to detect potential conflicts of interest in employee transactions by cross-referencing data using Teradata SQL and SAS.</p>
+    <h2>Tools Used</h2>
+    <ul>
+        <li>Teradata SQL: Data extraction and transformation</li>
+        <li>SAS: Advanced analytics and reporting</li>
+    </ul>
+    <h2>Sample Output (Teradata Table)</h2>
+    <table>
+        <tr>
+            <th>social_security_num</th>
+            <th>employee_id</th>
+            <th>emp_name</th>
+            <th>transaction_id</th>
+            <th>conflict_flag</th>
+        </tr>
+        <tr>
+            <td>123-45-6789</td>
+            <td>E001</td>
+            <td>John Smith</td>
+            <td>TX001</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>234-56-7890</td>
+            <td>E002</td>
+            <td>Maria Gonzalez</td>
+            <td>TX002</td>
+            <td>Yes</td>
+        </tr>
+    </table>
+</body>
+</html>
