@@ -3,24 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>My Project Portfolio</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        h1 { color: #333; }
-        ul { list-style: none; padding: 0; }
-        li { margin: 10px 0; }
-        a { text-decoration: none; color: #007bff; font-size: 18px; }
-        a:hover { text-decoration: underline; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+        .sidebar img {
+            width: 100%;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+            color: #333;
+        }
+        .sidebar p {
+            font-size: 14px;
+            color: #666;
+        }
+        .main-content {
+            margin-left: 290px;
+            padding: 20px;
+            width: calc(100% - 290px);
+        }
+        h1 {
+            color: #333;
+        }
+        .project-link {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .project-link img {
+            width: 100px;
+            height: 100px;
+            margin-right: 15px;
+            border: 1px solid #ddd;
+        }
+        .project-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Portfolio</h1>
-    <p>Explore my work in data management, analysis, and visualization.</p>
-    <ul>
-        <li><a href="teradata.html">Teradata Projects</a></li>
-        <li><a href="python.html">Python Projects</a></li>
-        <li><a href="sas.html">SAS Projects</a></li>
-        <li><a href="tableau.html">Tableau Projects</a></li>
-    </ul>
+    <div class="sidebar">
+        <img src="assets/profile.jpg" alt="Profile Picture">
+        <h2>Adam Curry</h2>
+        <p>Data professional with over 10 years of experience in analytics, machine learning, and database management. Skilled in SQL, SAS, Python, and Tableau. Passionate about solving complex problems with data.</p>
+    </div>
+    <div class="main-content">
+        <h1>My Project Portfolio</h1>
+        <p>Explore my projects showcasing data management, analytics, and machine learning.</p>
+        <a href="conflict-of-interest.html" class="project-link">
+            <img src="assets/coi-graphic.png" alt="Conflict of Interest Graphic">
+            <div>
+                <h3>Conflict of Interest Detection</h3>
+                <p>Used Teradata SQL and SAS to identify potential conflicts in employee transactions.</p>
+            </div>
+        </a>
+        <a href="presence-detection.html" class="project-link">
+            <img src="assets/pd-graphic.png" alt="Presence Detection Graphic">
+            <div>
+                <h3>Presence Detection System</h3>
+                <p>Developed a system using Python ML, Teradata SQL, and SAS to detect individual presence during interactions.</p>
+            </div>
+        </a>
+    </div>
 </body>
 </html>
