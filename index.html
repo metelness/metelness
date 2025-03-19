@@ -65,4 +65,96 @@
             color: #666;
         }
         .bio .skills {
-            margin-top: 10
+            margin-top: 10px;
+        }
+        .bio .skills span {
+            display: inline-block;
+            background-color: #e0f2f1;
+            color: #00796b;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+        }
+        .projects {
+            flex: 3;
+            padding: 20px;
+        }
+        .projects h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1E88E5;
+            font-size: 1.8em;
+            margin-top: 0;
+        }
+        .project-card {
+            display: block;
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        .project-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            font-size: 1.2em;
+            color: #1E88E5;
+        }
+        .project-card p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            .bio {
+                margin-right: 0;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Adam Curry</h1>
+        <p>Risk Analytics Professional</p>
+        <p>I’m passionate about using data to uncover stories that drive smarter decisions and stronger strategies.</p>
+    </div>
+    <div class="content">
+        <div class="bio">
+            <img src="assets/profile.jpg" alt="Your Profile Picture">
+            <h2>About Me</h2>
+            <p>I am a highly experienced data professional with a background in database management, analytics, and machine learning.</p>
+            <div class="skills">
+                <span>SQL</span>
+                <span>SAS</span>
+                <span>Python</span>
+                <span>Tableau</span>
+            </div>
+        </div>
+        <div class="projects">
+            <h2>My Projects</h2>
+            <a href="conflict-of-interest.html" class="project-card">
+                <h3>Conflict of Interest Detection</h3>
+                <p>Used SQL and SAS to identify potential conflicts in employee transactions.</p>
+            </a>
+            <a href="presence-detection.html" class="project-card">
+                <h3>Presence Detection System</h3>
+                <p>Developed a system using Python ML, SQL, and SAS to detect individual presence during interactions.</p>
+            </a>
+            <!-- Add more project cards as needed -->
+        </div>
+    </div>
+</body>
+</html>
