@@ -12,49 +12,63 @@
             padding: 0;
             background-color: #f9f9f9;
             color: #333;
+            display: flex; /* Use flexbox for sidebar and main content */
         }
-        .content {
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .bio {
-            width: 100%;
-            padding: 20px;
+        
+        /* Sidebar (formerly .bio) */
+        .sidebar {
+            width: 300px; /* Fixed width for sidebar */
             background-color: #ffffff;
-            border-radius: 8px;
+            padding: 20px;
+            height: 100vh; /* Full viewport height */
+            position: fixed; /* Stays in place while scrolling */
+            top: 0;
+            left: 0;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            overflow-y: auto; /* Scroll if content overflows */
             text-align: center;
         }
-        .bio img {
+        .sidebar img {
             width: 150px;
             height: 150px;
             border-radius: 50%;
             margin-bottom: 15px;
         }
-        .bio h1 {
+        .sidebar h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.5em;
+            font-size: 2em; /* Slightly smaller than original */
             color: #1E88E5;
             margin: 0;
         }
-        .bio p {
+        .sidebar p {
             font-size: 1.1em;
             color: #666;
             margin: 5px 0;
         }
+
+        /* Main content area */
+        .main-content {
+            margin-left: 340px; /* Offset by sidebar width + padding */
+            padding: 20px;
+            width: calc(100% - 340px); /* Adjust width to fit beside sidebar */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .projects {
             padding: 20px;
+            max-width: 800px; /* Limit width for readability */
+            width: 100%;
         }
         .projects h2 {
             font-family: 'Montserrat', sans-serif;
             color: #1E88E5;
             font-size: 1.8em;
             margin-top: 0;
+            text-align: center;
         }
+
+        /* Project cards with images */
         .project-card {
             display: block;
             background-color: #ffffff;
@@ -70,17 +84,25 @@
             transform: translateY(-5px);
             box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
+        .project-card img {
+            width: 100%; /* Full width of card */
+            height: 200px; /* Fixed height for consistency */
+            object-fit: cover; /* Maintain aspect ratio */
+            border-radius: 8px 8px 0 0; /* Rounded top corners */
+        }
         .project-card h3 {
             font-family: 'Montserrat', sans-serif;
-            margin: 0;
+            margin: 10px 0 5px; /* Add spacing after image */
             font-size: 1.2em;
             color: #1E88E5;
         }
         .project-card p {
-            margin: 5px 0 0;
+            margin: 0;
             font-size: 0.9em;
             color: #666;
         }
+
+        /* Placeholder styling */
         .placeholder {
             background-color: #f4f4f4;
             padding: 20px;
@@ -88,63 +110,95 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+        .placeholder img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
         .placeholder h3 {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.2em;
             color: #1E88E5;
-            margin: 0;
+            margin: 10px 0 5px;
         }
         .placeholder p {
             font-size: 0.9em;
             color: #666;
-            margin: 5px 0 0;
+            margin: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative; /* Stack on top for small screens */
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0; /* Remove offset */
+                width: 100%;
+            }
+            .projects {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        <div class="bio">
-            <img src="assets/profile.jpg" alt="Your Profile Picture">
-            <h1>Adam Curry</h1>
-            <p>Risk Analytics Professional</p>
-            <p>I’m passionate about using data to uncover stories that drive smarter decisions and stronger strategies.</p>
-        </div>
+    <div class="sidebar">
+        <img src="assets/profile.jpg" alt="Your Profile Picture">
+        <h1>Adam Curry</h1>
+        <p>Risk Analytics Professional</p>
+        <p>I’m passionate about using data to uncover stories that drive smarter decisions and stronger strategies.</p>
+    </div>
+    <div class="main-content">
         <div class="projects">
             <h2>My Projects</h2>
             <a href="conflict-of-interest.html" class="project-card">
+                <img src="assets/conflict-of-interest.jpg" alt="Conflict of Interest Project Image">
                 <h3>Conflict of Interest Detection</h3>
                 <p>Used SQL and SAS to identify potential conflicts in employee transactions.</p>
             </a>
             <a href="presence-detection.html" class="project-card">
+                <img src="assets/presence-detection.jpg" alt="Presence Detection Project Image">
                 <h3>Presence Detection System</h3>
                 <p>Developed a system using Python ML, SQL, and SAS to detect individual presence during interactions.</p>
             </a>
             <div class="placeholder">
+                <img src="assets/placeholder1.jpg" alt="Placeholder Project 1 Image">
                 <h3>Placeholder Project 1</h3>
                 <p>Brief description of Placeholder Project 1.</p>
             </div>
             <div class="placeholder">
+                <img src="assets/placeholder2.jpg" alt="Placeholder Project 2 Image">
                 <h3>Placeholder Project 2</h3>
                 <p>Brief description of Placeholder Project 2.</p>
             </div>
             <h2>Data Science Portfolio (Master's Program)</h2>
             <a href="https://github.com/metelness/DSC550_ClassifyingData_Alcest" class="project-card">
+                <img src="assets/classifying-data.jpg" alt="Classifying Data Project Image">
                 <h3>Classifying Data with Alcest</h3>
                 <p>Project description from README.</p>
             </a>
             <a href="https://github.com/metelness/DSC540_DataPrep_SpotifyListeningHabits" class="project-card">
+                <img src="assets/spotify-listening.jpg" alt="Spotify Listening Habits Project Image">
                 <h3>Data Preparation for Spotify Listening Habits</h3>
                 <p>Project description from README.</p>
             </a>
             <a href="https://github.com/metelness/DSC630PredictiveAnalytics_CovidEconomy" class="project-card">
+                <img src="assets/covid-economy.jpg" alt="COVID-19 Economy Project Image">
                 <h3>Predictive Analytics for COVID-19 Economy</h3>
                 <p>Project description from README.</p>
             </a>
             <a href="https://github.com/metelness/DSC550DataMining_TrumpTweets" class="project-card">
+                <img src="assets/trump-tweets.jpg" alt="Trump Tweets Project Image">
                 <h3>Data Mining on Trump Tweets</h3>
                 <p>Project description from README.</p>
             </a>
             <a href="https://github.com/metelness/DSC510_IntroToPython_WeatherForecast" class="project-card">
+                <img src="assets/weather-forecast.jpg" alt="Weather Forecast Project Image">
                 <h3>Introduction to Python: Weather Forecast</h3>
                 <p>Project description from README.</p>
             </a>
