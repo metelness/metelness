@@ -12,16 +12,72 @@
             padding: 0;
             background-color: #f9f9f9;
             color: #333;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .sidebar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: block;
+        }
+        .sidebar h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5em;
+            color: #1E88E5;
+            margin: 0 0 10px;
+            text-align: center;
+        }
+        .sidebar p {
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #666;
+            text-align: center;
+        }
+        .sidebar .skills {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .sidebar .skills span {
+            display: inline-block;
+            background-color: #e0f2f1;
+            color: #00796b;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 0.8em;
+        }
+        .main-content {
+            margin-left: 290px; /* Sidebar width (250px) + padding */
+            padding: 20px;
+            width: calc(100% - 290px);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
         }
         .header {
-            position: sticky;
-            top: 0;
-            width: 100%;
             background: linear-gradient(135deg, #1E88E5, #1565C0);
             color: white;
             padding: 20px;
             text-align: center;
-            z-index: 1000;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            width: 100%;
+            max-width: 800px; /* Limit header width */
+            margin: 0 auto; /* Center the header */
         }
         .header h1 {
             font-family: 'Montserrat', sans-serif;
@@ -32,64 +88,17 @@
             margin: 5px 0;
             font-size: 1.1em;
         }
-        .content {
-            margin-left: 290px;
-            padding: 20px;
-            max-width: calc(100% - 290px);
-        }
-        .bio {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            height: 100vh;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            overflow-y: auto;
-        }
-        .bio img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: block;
-        }
-        .bio h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5em;
-            color: #1E88E5;
-            margin: 0 0 10px;
-            text-align: center;
-        }
-        .bio p {
-            font-size: 0.9em;
-            line-height: 1.5;
-            color: #666;
-            text-align: center;
-        }
-        .bio .skills {
-            margin-top: 10px;
-            text-align: center;
-        }
-        .bio .skills span {
-            display: inline-block;
-            background-color: #e0f2f1;
-            color: #00796b;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin: 5px;
-            font-size: 0.8em;
-        }
         .projects {
             padding: 20px;
+            max-width: 800px; /* Match header width for consistency */
+            width: 100%;
         }
         .projects h2 {
             font-family: 'Montserrat', sans-serif;
             color: #1E88E5;
             font-size: 1.8em;
             margin-top: 0;
+            text-align: center;
         }
         .project-card {
             display: block;
@@ -118,41 +127,43 @@
             color: #666;
         }
         @media (max-width: 768px) {
-            .content {
-                margin-left: 0;
-                max-width: 100%;
-            }
-            .bio {
+            .sidebar {
                 position: relative;
                 width: 100%;
                 height: auto;
-                max-width: 100%;
                 box-shadow: none;
-                border-radius: 0;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .header {
+                position: relative;
+                max-width: 100%; /* Full width on small screens */
             }
             .projects {
-                padding: 10px;
+                max-width: 100%; /* Full width on small screens */
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Adam Curry</h1>
-        <p>Risk Analytics Professional</p>
-        <p>I’m passionate about using data to uncover stories that drive smarter decisions and stronger strategies.</p>
+    <div class="sidebar">
+        <img src="assets/profile.jpg" alt="Profile Picture">
+        <h2>About Me</h2>
+        <p>I am a highly experienced data professional with a background in database management, analytics, and machine learning.</p>
+        <div class="skills">
+            <span>SQL</span>
+            <span>SAS</span>
+            <span>Python</span>
+            <span>Tableau</span>
+        </div>
     </div>
-    <div class="content">
-        <div class="bio">
-            <img src="assets/profile.jpg" alt="Your Profile Picture">
-            <h2>About Me</h2>
-            <p>I am a highly experienced data professional with a background in database management, analytics, and machine learning.</p>
-            <div class="skills">
-                <span>SQL</span>
-                <span>SAS</span>
-                <span>Python</span>
-                <span>Tableau</span>
-            </$Tdiv>
+    <div class="main-content">
+        <div class="header">
+            <h1>Adam Curry</h1>
+            <p>Risk Analytics Professional</p>
+            <p>I’m passionate about using data to uncover stories that drive smarter decisions and stronger strategies.</p>
         </div>
         <div class="projects">
             <h2>My Projects</h2>
