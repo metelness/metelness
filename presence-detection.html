@@ -219,18 +219,26 @@ CREATE VOLATILE TABLE fraud_account_activity AS (
             TRIM(CAST(a.customer_number AS CHAR(18))) || TRIM(CAST(a.employee_ID AS CHAR(11)))
         ) AS key_,
         a.account_id,
-        /* Aggregate all transaction types */
-        (SUM(CASE WHEN a.transaction_type = 'WIRE_TRANSFER' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'FEE' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'CHECK_WRITTEN' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'DEBIT_CARD_PURCHASE' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'AUTO_TRANSFER' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'BILL_PAY' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'INTERNATIONAL_WIRE' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'MOBILE_DEPOSIT' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'ATM_WITHDRAWAL' THEN a.amount ELSE 0 END) +
-         SUM(CASE WHEN a.transaction_type = 'ATM_DEPOSIT' THEN a.amount ELSE 0 END)) 
-         / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS fraud_avg_amount
+        SUM(CASE WHEN a.transaction_type = 'WIRE_TRANSFER' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS wire_transfer_avg,
+        SUM(CASE WHEN a.transaction_type = 'FEE' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS fee_avg,
+        SUM(CASE WHEN a.transaction_type = 'CHECK_WRITTEN' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS check_written_avg,
+        SUM(CASE WHEN a.transaction_type = 'DEBIT_CARD_PURCHASE' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS debit_card_purchase_avg,
+        SUM(CASE WHEN a.transaction_type = 'AUTO_TRANSFER' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS auto_transfer_avg,
+        SUM(CASE WHEN a.transaction_type = 'BILL_PAY' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS bill_pay_avg,
+        SUM(CASE WHEN a.transaction_type = 'INTERNATIONAL_WIRE' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS international_wire_avg,
+        SUM(CASE WHEN a.transaction_type = 'MOBILE_DEPOSIT' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS mobile_deposit_avg,
+        SUM(CASE WHEN a.transaction_type = 'ATM_WITHDRAWAL' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS atm_withdrawal_avg,
+        SUM(CASE WHEN a.transaction_type = 'ATM_DEPOSIT' THEN a.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, a.account_open_date, a.account_close_date) + 1) AS atm_deposit_avg
     FROM 
         schema_b.closed_fraud_accounts a
     GROUP BY 
@@ -244,17 +252,26 @@ CREATE VOLATILE TABLE open_account_activity AS (
             TRIM(CAST(b.customer_number AS CHAR(18))) || TRIM(CAST(b.employee_ID AS CHAR(11)))
         ) AS key_,
         b.account_id,
-        (SUM(CASE WHEN b.transaction_type = 'WIRE_TRANSFER' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'FEE' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'CHECK_WRITTEN' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'DEBIT_CARD_PURCHASE' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'AUTO_TRANSFER' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'BILL_PAY' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'INTERNATIONAL_WIRE' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'MOBILE_DEPOSIT' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'ATM_WITHDRAWAL' THEN b.amount ELSE 0 END) +
-         SUM(CASE WHEN b.transaction_type = 'ATM_DEPOSIT' THEN b.amount ELSE 0 END)) 
-         / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS open_avg_amount
+        SUM(CASE WHEN b.transaction_type = 'WIRE_TRANSFER' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS wire_transfer_avg,
+        SUM(CASE WHEN b.transaction_type = 'FEE' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS fee_avg,
+        SUM(CASE WHEN b.transaction_type = 'CHECK_WRITTEN' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS check_written_avg,
+        SUM(CASE WHEN b.transaction_type = 'DEBIT_CARD_PURCHASE' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS debit_card_purchase_avg,
+        SUM(CASE WHEN b.transaction_type = 'AUTO_TRANSFER' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS auto_transfer_avg,
+        SUM(CASE WHEN b.transaction_type = 'BILL_PAY' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS bill_pay_avg,
+        SUM(CASE WHEN b.transaction_type = 'INTERNATIONAL_WIRE' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS international_wire_avg,
+        SUM(CASE WHEN b.transaction_type = 'MOBILE_DEPOSIT' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS mobile_deposit_avg,
+        SUM(CASE WHEN b.transaction_type = 'ATM_WITHDRAWAL' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS atm_withdrawal_avg,
+        SUM(CASE WHEN b.transaction_type = 'ATM_DEPOSIT' THEN b.amount ELSE 0 END) 
+            / (DATEDIFF(DAY, b.account_open_date, CURRENT_DATE) + 1) AS atm_deposit_avg
     FROM 
         schema_b.open_accounts b
     GROUP BY 
@@ -265,12 +282,39 @@ CREATE VOLATILE TABLE open_account_activity AS (
 CREATE VOLATILE TABLE fraud_comparison AS (
     SELECT
         a.key_,
-        a.fraud_avg_amount,
-        b.open_avg_amount,
-        CASE 
-            WHEN a.fraud_avg_amount > b.open_avg_amount * 1.5 THEN 'Y'
-            ELSE 'N'
-        END AS high_risk_flag
+        /* Raw averages from fraud accounts */
+        a.wire_transfer_avg AS fraud_wire_transfer_avg,
+        a.fee_avg AS fraud_fee_avg,
+        a.check_written_avg AS fraud_check_written_avg,
+        a.debit_card_purchase_avg AS fraud_debit_card_purchase_avg,
+        a.auto_transfer_avg AS fraud_auto_transfer_avg,
+        a.bill_pay_avg AS fraud_bill_pay_avg,
+        a.international_wire_avg AS fraud_international_wire_avg,
+        a.mobile_deposit_avg AS fraud_mobile_deposit_avg,
+        a.atm_withdrawal_avg AS fraud_atm_withdrawal_avg,
+        a.atm_deposit_avg AS fraud_atm_deposit_avg,
+        /* Raw averages from open accounts */
+        b.wire_transfer_avg AS open_wire_transfer_avg,
+        b.fee_avg AS open_fee_avg,
+        b.check_written_avg AS open_check_written_avg,
+        b.debit_card_purchase_avg AS open_debit_card_purchase_avg,
+        b.auto_transfer_avg AS open_auto_transfer_avg,
+        b.bill_pay_avg AS open_bill_pay_avg,
+        b.international_wire_avg AS open_international_wire_avg,
+        b.mobile_deposit_avg AS open_mobile_deposit_avg,
+        b.atm_withdrawal_avg AS open_atm_withdrawal_avg,
+        b.atm_deposit_avg AS open_atm_deposit_avg,
+        /* Flags for transaction types exceeding fraud threshold */
+        CASE WHEN a.wire_transfer_avg > b.wire_transfer_avg * 1.5 THEN 'Y' ELSE 'N' END AS wire_transfer_risk_flag,
+        CASE WHEN a.fee_avg > b.fee_avg * 1.5 THEN 'Y' ELSE 'N' END AS fee_risk_flag,
+        CASE WHEN a.check_written_avg > b.check_written_avg * 1.5 THEN 'Y' ELSE 'N' END AS check_written_risk_flag,
+        CASE WHEN a.debit_card_purchase_avg > b.debit_card_purchase_avg * 1.5 THEN 'Y' ELSE 'N' END AS debit_card_purchase_risk_flag,
+        CASE WHEN a.auto_transfer_avg > b.auto_transfer_avg * 1.5 THEN 'Y' ELSE 'N' END AS auto_transfer_risk_flag,
+        CASE WHEN a.bill_pay_avg > b.bill_pay_avg * 1.5 THEN 'Y' ELSE 'N' END AS bill_pay_risk_flag,
+        CASE WHEN a.international_wire_avg > b.international_wire_avg * 1.5 THEN 'Y' ELSE 'N' END AS international_wire_risk_flag,
+        CASE WHEN a.mobile_deposit_avg > b.mobile_deposit_avg * 1.5 THEN 'Y' ELSE 'N' END AS mobile_deposit_risk_flag,
+        CASE WHEN a.atm_withdrawal_avg > b.atm_withdrawal_avg * 1.5 THEN 'Y' ELSE 'N' END AS atm_withdrawal_risk_flag,
+        CASE WHEN a.atm_deposit_avg > b.atm_deposit_avg * 1.5 THEN 'Y' ELSE 'N' END AS atm_deposit_risk_flag
     FROM 
         fraud_account_activity a
     INNER JOIN 
@@ -279,7 +323,6 @@ CREATE VOLATILE TABLE fraud_comparison AS (
 ) WITH DATA PRIMARY INDEX(key_) ON COMMIT PRESERVE ROWS;
 
 COLLECT STATS COLUMN (key_) ON fraud_comparison;
-
 
 
 /* Combine all indicators */
@@ -294,7 +337,26 @@ CREATE VOLATILE TABLE all_indicators AS (
         e.out_of_state_atm_flag,
         f.override_flag,
         f.cash_deposit_flag,
-        g.high_risk_flag
+        g.open_wire_transfer_avg,
+        g.open_fee_avg,
+        g.open_check_written_avg,
+        g.open_debit_card_purchase_avg,
+        g.open_auto_transfer_avg,
+        g.open_bill_pay_avg,
+        g.open_international_wire_avg,
+        g.open_mobile_deposit_avg,
+        g.open_atm_withdrawal_avg,
+        g.open_atm_deposit_avg,
+        g.wire_transfer_risk_flag,
+        g.fee_risk_flag,
+        g.check_written_risk_flag,
+        g.debit_card_purchase_risk_flag,
+        g.auto_transfer_risk_flag,
+        g.bill_pay_risk_flag,
+        g.international_wire_risk_flag,
+        g.mobile_deposit_risk_flag,
+        g.atm_withdrawal_risk_flag,
+        g.atm_deposit_risk_flag
     FROM 
         t_Transaction_TABLE a
     LEFT JOIN 
@@ -315,26 +377,18 @@ COLLECT STATS COLUMN (key_) ON all_indicators;
 COLLECT STATS COLUMN (transaction_ID) ON all_indicators;
 
 
-  I’m glad you’re happy with the progress! Let’s enhance your portfolio by adding visualizations to the presence-detection.html page, focusing on the Python analysis you conducted. You mentioned illustrating feature importance, classifier impacts, SHAP values, and a correlation matrix, and you’d like to include a few graphs, including a heatmap of the most impactful classifiers (features) for out_of_state_purchase_flag, cash_deposit_flag, and distance_miles. Since I can’t directly generate images, I’ll provide the Python code to create these visualizations and describe how they would look, then show you how to embed them into your GitHub Pages portfolio.
 
-Step 1: Python Code for Visualizations
-Let’s write the Python code to generate the visualizations you described. We’ll use libraries like pandas, matplotlib, seaborn, sklearn, and shap to create the graphs. I’ll assume you’ve exported the all_indicators table from Teradata as a CSV file (all_indicators.csv) for Python analysis.
 
-Python Code
-python
+# Step 1: Python Code for Visualizations
 
-Collapse
-
-Wrap
-
-Copy
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import shap
-import numpy as np
+import os
 
 # Load data
 data = pd.read_csv("all_indicators.csv")
@@ -364,47 +418,37 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
-# 1. Feature Importance Plot
+# Visualization 1: Feature Importance
 importances = model.feature_importances_
 indices = np.argsort(importances)[::-1]
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(12, 8))
 plt.title("Feature Importance")
 plt.bar(range(X.shape[1]), importances[indices], align="center")
-plt.xticks(range(X.shape[1]), [features[i] for i in indices], rotation=45, ha='right')
+plt.xticks(range(X.shape[1]), [features[i] for i in indices], rotation=90)
 plt.xlabel("Features")
 plt.ylabel("Importance")
 plt.tight_layout()
-plt.savefig("assets/feature_importance.png")
+plt.savefig('assets/feature_importance.png')
 plt.close()
 
-# 2. Heatmap of Most Impactful Classifiers (out_of_state_purchase_flag, cash_deposit_flag, distance_miles)
-subset_features = ['out_of_state_purchase_flag', 'cash_deposit_flag', 'distance_miles']
-subset_data = X[subset_features]
-correlation_matrix = subset_data.corr()
-plt.figure(figsize=(8, 6))
-sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", vmin=-1, vmax=1, center=0)
-plt.title("Correlation Heatmap of Key Classifiers")
-plt.tight_layout()
-plt.savefig("assets/classifier_heatmap.png")
-plt.close()
-
-# 3. SHAP Values (Summary Plot)
+# Visualization 2: SHAP Values
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(X_test)
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(12, 8))
 shap.summary_plot(shap_values[1], X_test, plot_type="bar", show=False)
 plt.title("SHAP Feature Importance")
 plt.tight_layout()
-plt.savefig("assets/shap_values.png")
+plt.savefig('assets/shap_values.png')
 plt.close()
 
-# 4. Correlation Matrix (All Features)
-plt.figure(figsize=(10, 8))
-sns.heatmap(X.corr(), annot=True, cmap="coolwarm", vmin=-1, vmax=1, center=0)
-plt.title("Correlation Matrix of All Features")
+# Visualization 3: Correlation Matrix
+plt.figure(figsize=(12, 10))
+sns.heatmap(X.corr(), annot=False, cmap="coolwarm", vmin=-1, vmax=1, center=0)
+plt.title("Correlation Matrix of Features")
 plt.tight_layout()
-plt.savefig("assets/correlation_matrix.png")
+plt.savefig('assets/correlation_matrix.png')
 plt.close()
+
 Description of Visualizations
 Feature Importance Plot (feature_importance.png):
 A bar chart showing the importance of each feature in the Random Forest model.
