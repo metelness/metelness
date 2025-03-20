@@ -375,112 +375,6 @@ CREATE VOLATILE TABLE all_indicators AS (
 
 COLLECT STATS COLUMN (key_) ON all_indicators;
 COLLECT STATS COLUMN (transaction_ID) ON all_indicators;
-
-
-
-
-# Step 1: Python Code for Visualizations
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-import shap
-import os
-
-# Load data
-data = pd.read_csv("all_indicators.csv")
-
-# Prepare features and target
-features = ['distance_miles', 'esignature_flag', 'out_of_state_flag', 
-            'out_of_state_purchase_flag', 'out_of_state_atm_flag', 
-            'override_flag', 'cash_deposit_flag', 'high_risk_flag']
-data['esignature_flag'] = data['esignature_flag'].map({'Y': 1, 'N': 0})
-data['out_of_state_flag'] = data['out_of_state_flag'].map({'Y': 1, 'N': 0})
-data['out_of_state_purchase_flag'] = data['out_of_state_purchase_flag'].map({'Y': 1, 'N': 0})
-data['out_of_state_atm_flag'] = data['out_of_state_atm_flag'].map({'Y': 1, 'N': 0})
-data['override_flag'] = data['override_flag'].map({'Y': 1, 'N': 0})
-data['cash_deposit_flag'] = data['cash_deposit_flag'].map({'Y': 1, 'N': 0})
-data['high_risk_flag'] = data['high_risk_flag'].map({'Y': 1, 'N': 0})
-data.fillna(0, inplace=True)  # Handle missing values
-
-# Assume a target variable (e.g., manually labeled)
-data['is_present'] = np.random.randint(0, 2, size=len(data))  # Placeholder for demo
-
-# Split data
-X = data[features]
-y = data['is_present']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-# Train Random Forest model
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
-
-# Visualization 1: Feature Importance
-importances = model.feature_importances_
-indices = np.argsort(importances)[::-1]
-plt.figure(figsize=(12, 8))
-plt.title("Feature Importance")
-plt.bar(range(X.shape[1]), importances[indices], align="center")
-plt.xticks(range(X.shape[1]), [features[i] for i in indices], rotation=90)
-plt.xlabel("Features")
-plt.ylabel("Importance")
-plt.tight_layout()
-plt.savefig('assets/feature_importance.png')
-plt.close()
-
-# Visualization 2: SHAP Values
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(X_test)
-plt.figure(figsize=(12, 8))
-shap.summary_plot(shap_values[1], X_test, plot_type="bar", show=False)
-plt.title("SHAP Feature Importance")
-plt.tight_layout()
-plt.savefig('assets/shap_values.png')
-plt.close()
-
-# Visualization 3: Correlation Matrix
-plt.figure(figsize=(12, 10))
-sns.heatmap(X.corr(), annot=False, cmap="coolwarm", vmin=-1, vmax=1, center=0)
-plt.title("Correlation Matrix of Features")
-plt.tight_layout()
-plt.savefig('assets/correlation_matrix.png')
-plt.close()
-
-Description of Visualizations
-Feature Importance Plot (feature_importance.png):
-A bar chart showing the importance of each feature in the Random Forest model.
-Features like distance_miles, out_of_state_purchase_flag, and cash_deposit_flag might have higher bars if they’re more impactful in predicting presence.
-X-axis: Feature names (rotated for readability).
-Y-axis: Importance score (0 to 1).
-Heatmap of Key Classifiers (classifier_heatmap.png):
-A heatmap showing the correlation between out_of_state_purchase_flag, cash_deposit_flag, and distance_miles.
-Colors range from blue (negative correlation) to red (positive correlation), with values annotated (e.g., 0.3, -0.1).
-If out_of_state_purchase_flag and cash_deposit_flag are positively correlated, you’d see a red square where their row and column intersect.
-SHAP Values (shap_values.png):
-A bar plot showing the average SHAP values for each feature, indicating their impact on the model’s predictions.
-Features are ranked by their mean absolute SHAP value, with distance_miles likely at the top if it’s the most impactful.
-X-axis: Mean SHAP value.
-Y-axis: Feature names.
-Correlation Matrix (correlation_matrix.png):
-A heatmap of correlations between all features.
-Similar to the classifier heatmap but includes all features (e.g., esignature_flag, high_risk_flag).
-Useful for identifying multicollinearity (e.g., if out_of_state_purchase_flag and out_of_state_atm_flag are highly correlated).
-Step 2: Update Portfolio Page (presence-detection.html)
-Let’s update the presence-detection.html page to include these visualizations. You’ll need to run the Python code above to generate the images and upload them to your assets/ folder in your GitHub Pages repository.
-
-Updated presence-detection.html
-html
-
-Preview
-
-Collapse
-
-Wrap
-
-Copy
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -507,38 +401,17 @@ Copy
         <li>Teradata SQL: Stored and queried interaction data</li>
         <li>SAS: Validated model outputs</li>
     </ul>
-    <h2>Sample Teradata SQL Code</h2>
-    <pre>
-/* Compare customer's mobile login location to store location */
-CREATE VOLATILE TABLE location_comparison AS (
-    SELECT
-        a.key_,
-        a.transaction_ID,
-        a.employee_ID,
-        3959 * ACOS(
-            COS(RADIANS(c.customer_lat)) * COS(RADIANS(d.store_lat)) * 
-            COS(RADIANS(d.store_lon) - RADIANS(c.customer_lon)) + 
-            SIN(RADIANS(c.customer_lat)) * SIN(RADIANS(d.store_lat))
-        ) AS distance_miles
-    FROM 
-        t_Transaction_TABLE a
-    INNER JOIN 
-        schema_b.mobile_logins c
-        ON a.key_ = TRIM(
-            TRIM(CAST(c.customer_number AS CHAR(18))) || TRIM(CAST(c.employee_ID AS CHAR(11)))
-        )
-        AND c.login_timestamp BETWEEN a.transaction_timestamp - INTERVAL '1' HOUR 
-                                 AND a.transaction_timestamp + INTERVAL '1' HOUR
-    INNER JOIN 
-        schema_b.store_locations d
-        ON a.employee_ID = d.employee_ID
-) WITH DATA PRIMARY INDEX(key_, transaction_ID) ON COMMIT PRESERVE ROWS;
-    </pre>
-    <h2>Sample Python Code</h2>
+<h2>Sample Python Code</h2>
     <pre>
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 import shap
+import os
+
 
 # Load data
 data = pd.read_csv("all_indicators.csv")
