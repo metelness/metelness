@@ -12,20 +12,20 @@
             padding: 0;
             background-color: #f9f9f9;
             color: #333;
-            display: flex; /* Use flexbox for sidebar and main content */
+            display: flex;
         }
         
-        /* Sidebar (formerly .bio) */
+        /* Sidebar styling */
         .sidebar {
-            width: 300px; /* Fixed width for sidebar */
+            width: 300px;
             background-color: #ffffff;
             padding: 20px;
-            height: 100vh; /* Full viewport height */
-            position: fixed; /* Stays in place while scrolling */
+            height: 100vh;
+            position: fixed;
             top: 0;
             left: 0;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            overflow-y: auto; /* Scroll if content overflows */
+            overflow-y: auto;
             text-align: center;
         }
         .sidebar img {
@@ -36,7 +36,7 @@
         }
         .sidebar h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2em; /* Slightly smaller than original */
+            font-size: 2em;
             color: #1E88E5;
             margin: 0;
         }
@@ -45,30 +45,36 @@
             color: #666;
             margin: 5px 0;
         }
+        .sidebar .links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #1E88E5;
+            font-size: 1.2em;
+        }
 
-        /* Main content area */
+        /* Main content styling */
         .main-content {
-            margin-left: 340px; /* Offset by sidebar width + padding */
+            margin-left: 340px;
             padding: 20px;
-            width: calc(100% - 340px); /* Adjust width to fit beside sidebar */
+            width: calc(100% - 340px);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .projects {
             padding: 20px;
-            max-width: 800px; /* Limit width for readability */
+            max-width: 800px;
             width: 100%;
         }
         .projects h2 {
             font-family: 'Montserrat', sans-serif;
             color: #1E88E5;
             font-size: 1.8em;
-            margin-top: 0;
+            margin-top: 20px;
             text-align: center;
         }
 
-        /* Project cards with images */
+        /* Project card styling */
         .project-card {
             display: block;
             background-color: #ffffff;
@@ -85,14 +91,14 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
         .project-card img {
-            width: 100%; /* Full width of card */
-            height: 200px; /* Fixed height for consistency */
-            object-fit: cover; /* Maintain aspect ratio */
-            border-radius: 8px 8px 0 0; /* Rounded top corners */
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
         }
         .project-card h3 {
             font-family: 'Montserrat', sans-serif;
-            margin: 10px 0 5px; /* Add spacing after image */
+            margin: 10px 0 5px;
             font-size: 1.2em;
             color: #1E88E5;
         }
@@ -102,42 +108,16 @@
             color: #666;
         }
 
-        /* Placeholder styling */
-        .placeholder {
-            background-color: #f4f4f4;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .placeholder img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px 8px 0 0;
-        }
-        .placeholder h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2em;
-            color: #1E88E5;
-            margin: 10px 0 5px;
-        }
-        .placeholder p {
-            font-size: 0.9em;
-            color: #666;
-            margin: 0;
-        }
-
         /* Responsive design */
         @media (max-width: 768px) {
             .sidebar {
-                position: relative; /* Stack on top for small screens */
+                position: relative;
                 width: 100%;
                 height: auto;
                 box-shadow: none;
             }
             .main-content {
-                margin-left: 0; /* Remove offset */
+                margin-left: 0;
                 width: 100%;
             }
             .projects {
@@ -149,80 +129,32 @@
 <body>
     <div class="sidebar">
         <img src="assets/profile.jpg" alt="Your Profile Picture">
-        <div class="bio">
-            <img src="https://placehold.co/150x150" alt="Your Profile Picture">
-            <h1 class="name">Adam Curry</h1>
-            <p class="job-title">Risk Analytics Professional</p>
-            <p class="location">Based in Omaha, NE</p>
-            <div class="social-links">
-                <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
-                <!-- Add more links as needed -->
-            </div>
-            <div class="about">
-                <h2>About Me</h2>
-                <p>Data professional with over 10 years of experience in analytics, machine learning, and database management. Skilled in SQL, SAS, Python, and Tableau. Passionate about solving complex problems with data.</p>
-            </div>
-            <div class="skills">
-                <h3>Skills</h3>
-                <div class="skills-grid">
-                    <span>SQL</span>
-                    <span>SAS</span>
-                    <span>Python</span>
-                    <span>Tableau</span>
-                    <!-- Add more skills as needed -->
-                </div>
-            </div>
+        <h1>Your Name</h1>
+        <p>Your Job Title</p>
+        <p>A brief description about yourself and your passion for your work.</p>
+        <div class="links">
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="https://github.com" target="_blank">GitHub</a>
         </div>
     </div>
     <div class="main-content">
         <div class="projects">
             <h2>My Projects</h2>
-            <a href="conflict-of-interest.html" class="project-card">
-                <img src="assets/conflict-of-interest.jpg" alt="Conflict of Interest Project Image">
-                <h3>Conflict of Interest Detection</h3>
-                <p>Used SQL and SAS to identify potential conflicts in employee transactions.</p>
+            <a href="#" class="project-card">
+                <img src="assets/project1.jpg" alt="Project 1 Image">
+                <h3>Project Title 1</h3>
+                <p>Brief description of your first project.</p>
             </a>
-            <a href="presence-detection.html" class="project-card">
-                <img src="assets/presence-detection.jpg" alt="Presence Detection Project Image">
-                <h3>Presence Detection System</h3>
-                <p>Developed a system using Python ML, SQL, and SAS to detect individual presence during interactions.</p>
+            <a href="#" class="project-card">
+                <img src="assets/project2.jpg" alt="Project 2 Image">
+                <h3>Project Title 2</h3>
+                <p>Brief description of your second project.</p>
             </a>
-            <div class="placeholder">
-                <img src="assets/placeholder1.jpg" alt="Placeholder Project 1 Image">
-                <h3>Placeholder Project 1</h3>
-                <p>Brief description of Placeholder Project 1.</p>
-            </div>
-            <div class="placeholder">
-                <img src="assets/placeholder2.jpg" alt="Placeholder Project 2 Image">
-                <h3>Placeholder Project 2</h3>
-                <p>Brief description of Placeholder Project 2.</p>
-            </div>
-            <h2>Data Science Portfolio (Master's Program)</h2>
-            <a href="https://github.com/metelness/DSC550_ClassifyingData_Alcest" class="project-card">
-                <img src="assets/classifying-data.jpg" alt="Classifying Data Project Image">
-                <h3>Classifying Data with Alcest</h3>
-                <p>Project description from README.</p>
-            </a>
-            <a href="https://github.com/metelness/DSC540_DataPrep_SpotifyListeningHabits" class="project-card">
-                <img src="assets/spotify-listening.jpg" alt="Spotify Listening Habits Project Image">
-                <h3>Data Preparation for Spotify Listening Habits</h3>
-                <p>Project description from README.</p>
-            </a>
-            <a href="https://github.com/metelness/DSC630PredictiveAnalytics_CovidEconomy" class="project-card">
-                <img src="assets/covid-economy.jpg" alt="COVID-19 Economy Project Image">
-                <h3>Predictive Analytics for COVID-19 Economy</h3>
-                <p>Project description from README.</p>
-            </a>
-            <a href="https://github.com/metelness/DSC550DataMining_TrumpTweets" class="project-card">
-                <img src="assets/trump-tweets.jpg" alt="Trump Tweets Project Image">
-                <h3>Data Mining on Trump Tweets</h3>
-                <p>Project description from README.</p>
-            </a>
-            <a href="https://github.com/metelness/DSC510_IntroToPython_WeatherForecast" class="project-card">
-                <img src="assets/weather-forecast.jpg" alt="Weather Forecast Project Image">
-                <h3>Introduction to Python: Weather Forecast</h3>
-                <p>Project description from README.</p>
+            <h2>Additional Portfolio</h2>
+            <a href="#" class="project-card">
+                <img src="assets/project3.jpg" alt="Project 3 Image">
+                <h3>Project Title 3</h3>
+                <p>Brief description of your third project.</p>
             </a>
         </div>
     </div>
