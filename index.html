@@ -3,108 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adam Curry's Portfolio</title>
-    <!-- Assuming Ionicons and external CSS are included as in the original -->
-    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
-    <!-- Add your custom CSS or framework here -->
+    <title>My Project Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
     <style>
-        /* Basic styles to ensure functionality; replace with your full CSS */
-        .container { max-width: 1200px; margin: 0 auto; }
-        .row { display: flex; flex-wrap: wrap; }
-        .col-12 { width: 100%; }
-        .col-8 { width: 66.66%; }
-        .push-2 { margin-left: 16.66%; }
-        .col-d-12 { width: 100%; }
-        .push-d-0 { margin-left: 0; }
-        .header { background: #1E88E5; color: white; padding: 20px; }
-        .logo__link { color: white; text-decoration: none; font-size: 1.5em; }
-        .main-nav ul { list-style: none; display: flex; }
-        .main-nav a { color: white; padding: 10px; text-decoration: none; }
-        .hero { padding: 40px 0; background: #f9f9f9; }
-        .hero__inner { display: flex; align-items: center; }
-        .hero__image img { width: 200px; height: 200px; border-radius: 50%; }
-        .hero__title { font-size: 2.5em; color: #1E88E5; }
-        .hero__description { font-size: 1.2em; color: #666; }
-        .article { margin: 20px 0; padding: 15px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .article__title a { color: #1E88E5; text-decoration: none; }
-        .footer { background: #1E88E5; color: white; padding: 20px; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /** Header Styles **/
+        .header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #1E88E5, #1565C0);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            z-index: 999; /* Lower than sidebar */
+        }
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        /** Sidebar Styles **/
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 1000; /* Higher than header */
+            overflow-y: auto;
+        }
+        .sidebar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: block;
+        }
+        .sidebar h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5em;
+            color: #1E88E5;
+            margin: 0 0 10px;
+            text-align: center;
+        }
+        .sidebar p {
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #666;
+            text-align: center;
+        }
+        .sidebar .skills {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .sidebar .skills span {
+            display: inline-block;
+            background-color: #e0f2f1;
+            color: #00796b;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 0.8em;
+        }
+
+        /** Main Content Styles **/
+        .main-content {
+            margin-left: 290px; /* Space for sidebar */
+            padding: 20px;
+            width: calc(100% - 290px);
+        }
+        .projects {
+            max-width: 800px;
+            margin: 0 auto; /* Center the projects */
+            padding: 20px;
+        }
+        .projects h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #1E88E5;
+            font-size: 1.8em;
+            margin-top: 0;
+            text-align: center;
+        }
+        .project-card {
+            display: block;
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        .project-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            font-size: 1.2em;
+            color: #1E88E5;
+        }
+        .project-card p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /** Responsive Design **/
         @media (max-width: 768px) {
-            .col-8 { width: 100%; }
-            .push-2 { margin-left: 0; }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .projects {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Begin Header -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="header__inner col col-12">
-                    <div class="logo">
-                        <a class="logo__link" href="/">Adam Curry</a>
-                    </div>
-                    <nav class="main-nav">
-                        <div class="main-nav__box">
-                            <ul class="nav__list list-reset">
-                                <li class="nav__item"><a href="/" class="nav__link">Home</a></li>
-                                <li class="nav__item"><a href="/about/" class="nav__link">About</a></li>
-                                <li class="nav__item"><a href="/projects/" class="nav__link">Projects</a></li>
-                                <li class="nav__item"><a href="/contact/" class="nav__link">Contact</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </div>
+    <!-- Header -->
+    <div class="header">
+        <h1>Adam Curry</h1>
+        <p>Risk Analytics Professional</p>
+        <p>I’m passionate about using data to uncover stories that drive smarter decisions and stronger strategies.</p>
+    </div>
+
+    <!-- Sidebar with Picture -->
+    <div class="sidebar">
+        <img src="assets/profile.jpg" alt="Profile Picture">
+        <h2>About Me</h2>
+        <p>I am a highly experienced data professional with a background in database management, analytics, and machine learning.</p>
+        <div class="skills">
+            <span>SQL</span>
+            <span>SAS</span>
+            <span>Python</span>
+            <span>Tableau</span>
         </div>
-    </header>
-    <!-- End Header -->
+    </div>
 
-    <!-- Begin Content -->
-    <main class="content" aria-label="Content">
-        <!-- Begin Hero -->
-        <section class="hero">
-            <div class="container">
-                <div class="row">
-                    <div class="col col-12">
-                        <div class="hero__inner">
-                            <div class="hero__left">
-                                <div class="hero__image">
-                                    <img src="/path/to/your-profile-picture.jpg" alt="Adam Curry's Picture">
-                                </div>
-                            </div>
-                            <div class="hero__right">
-                                <h1 class="hero__title">Hey, I’m Adam Curry! Risk Analytics Professional.</h1>
-                                <p class="hero__description">I'm passionate about using data to uncover stories that drive smarter decisions and stronger strategies.</p>
-                                <div class="hero__contact">
-                                    <div class="social">
-                                        <ul class="social__list list-reset">
-                                            <li class="social__item">
-                                                <a class="social__link" href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter link"><i class="ion ion-logo-twitter"></i></a>
-                                            </li>
-                                            <li class="social__item">
-                                                <a class="social__link" href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn link"><i class="ion ion-logo-linkedin"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Hero -->
-
-        <div class="container">
-            <div class="row animate">
-                <!-- Project 1 -->
-                <div class="article col col-8 push-2 col-d-12 push-d-0">
-                    <div class="article__inner">
-                        <div class="article__content">
-                            <h2 class="article__title">
-                                <a href="/conflict-of-interest-detection">Conflict of Interest Detection <i class="ion ion-md-arrow-round-forward"></i></a>
-                            </h2>
-                            <div class="article__meta">
-                                <time class="article__date" datetime="2023-01-15T12:00:00+00:00">15 January 2023</time> – <span class="article__minutes">3 min read</span>
-                            </div>
-                            <p class="article__excerpt">Used SQL and SAS to identify potential conflicts in employee transactions, enhancing organizational transparency and compliance
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="projects">
+            <h2>My Projects</h2>
+            <a href="conflict-of-interest.html" class="project-card">
+                <h3>Conflict of Interest Detection</h3>
+                <p>Used SQL and SAS to identify potential conflicts in employee transactions.</p>
+            </a>
+            <a href="presence-detection.html" class="project-card">
+                <h3>Presence Detection System</h3>
+                <p>Developed a system using Python ML, SQL, and SAS to detect individual presence during interactions.</p>
+            </a>
+            <h2>Data Science Portfolio (Master's Program)</h2>
+            <p>The following projects were completed as part of my Master's in Data Science program.</p>
+            <a href="https://github.com/metelness/DSC550_ClassifyingData_Alcest" class="project-card" target="_blank">
+                <h3>Classifying Data with Alcest</h3>
+                <p>[Description from README: Insert a brief summary of the project here.]</p>
+            </a>
+            <a href="https://github.com/metelness/DSC540_DataPrep_SpotifyListeningHabits" class="project-card" target="_blank">
+                <h3>Data Preparation for Spotify Listening Habits</h3>
+                <p>[Description from README: Insert a brief summary of the project here.]</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
