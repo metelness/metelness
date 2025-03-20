@@ -33,39 +33,45 @@
             font-size: 1.1em;
         }
         .content {
-            display: flex;
-            flex-wrap: wrap;
+            margin-left: 290px;
             padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: calc(100% - 290px);
         }
         .bio {
-            flex: 1;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
             padding: 20px;
             background-color: #ffffff;
-            border-radius: 8px;
+            border-radius: 0;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-right: 20px;
-            max-width: 300px;
+            overflow-y: auto;
         }
         .bio img {
-            width: 100%;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            margin-bottom: 15px;
+            margin: 0 auto 15px;
+            display: block;
         }
         .bio h2 {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.5em;
             color: #1E88E5;
             margin: 0 0 10px;
+            text-align: center;
         }
         .bio p {
             font-size: 0.9em;
             line-height: 1.5;
             color: #666;
+            text-align: center;
         }
         .bio .skills {
             margin-top: 10px;
+            text-align: center;
         }
         .bio .skills span {
             display: inline-block;
@@ -73,12 +79,10 @@
             color: #00796b;
             padding: 5px 10px;
             border-radius: 5px;
-            margin-right: 5px;
-            margin-bottom: 5px;
+            margin: 5px;
             font-size: 0.8em;
         }
         .projects {
-            flex: 3;
             padding: 20px;
         }
         .projects h2 {
@@ -115,12 +119,19 @@
         }
         @media (max-width: 768px) {
             .content {
-                flex-direction: column;
+                margin-left: 0;
+                max-width: 100%;
             }
             .bio {
-                margin-right: 0;
-                margin-bottom: 20px;
+                position: relative;
+                width: 100%;
+                height: auto;
                 max-width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .projects {
+                padding: 10px;
             }
         }
     </style>
@@ -141,7 +152,7 @@
                 <span>SAS</span>
                 <span>Python</span>
                 <span>Tableau</span>
-            </div>
+            </$Tdiv>
         </div>
         <div class="projects">
             <h2>My Projects</h2>
@@ -153,7 +164,6 @@
                 <h3>Presence Detection System</h3>
                 <p>Developed a system using Python ML, SQL, and SAS to detect individual presence during interactions.</p>
             </a>
-            <!-- New Section: Data Science Portfolio from Master's Program -->
             <h2>Data Science Portfolio (Master's Program)</h2>
             <p>The following projects were completed as part of my Master's in Data Science program.</p>
             <a href="https://github.com/metelness/DSC550_ClassifyingData_Alcest" class="project-card" target="_blank">
@@ -164,19 +174,6 @@
                 <h3>Data Preparation for Spotify Listening Habits</h3>
                 <p>[Description from README: Insert a brief summary of the project here.]</p>
             </a>
-            <a href="https://github.com/metelness/DSC630PredictiveAnalytics_CovidEconomy" class="project-card" target="_blank">
-                <h3>Predictive Analytics for COVID-19 Economy</h3>
-                <p>[Description from README: Insert a brief summary of the project here.]</p>
-            </a>
-            <a href="https://github.com/metelness/DSC550DataMining_TrumpTweets" class="project-card" target="_blank">
-                <h3>Data Mining on Trump Tweets</h3>
-                <p>[Description from README: Insert a brief summary of the project here.]</p>
-            </a>
-            <a href="https://github.com/metelness/DSC510_IntroToPython_WeatherForecast" class="project-card" target="_blank">
-                <h3>Introduction to Python: Weather Forecast</h3>
-                <p>[Description from README: Insert a brief summary of the project here.]</p>
-            </a>
-            <!-- Add more master's projects as needed -->
         </div>
     </div>
 </body>
