@@ -7,7 +7,7 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
   <style>
-    /* Reset & Base Styles */
+    /* Base Reset & Typography */
     * {
       margin: 0;
       padding: 0;
@@ -17,7 +17,6 @@
       font-family: 'Roboto', sans-serif;
       color: #333;
       line-height: 1.6;
-      scroll-behavior: smooth;
     }
     a {
       text-decoration: none;
@@ -27,102 +26,85 @@
       max-width: 100%;
       display: block;
     }
+    :root {
+      --primary-color: #1565C0;  /* Accent blue */
+      --bg-light: #f9f9f9;
+      --text-muted: #666;
+    }
 
-    /* Navigation */
-    nav {
+    /* Layout Container */
+    .container {
+      display: flex;
+      min-height: 100vh;
+      background: var(--bg-light);
+    }
+
+    /* Sidebar (Left) */
+    .sidebar {
+      width: 300px;
       background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 2rem;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       position: sticky;
       top: 0;
-      z-index: 1000;
+      height: 100vh;
     }
-    .nav-container {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
-    .nav-brand {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.8rem;
-      color: #1565C0;
-    }
-    .nav-links a {
-      margin-left: 1.5rem;
-      font-size: 1rem;
-      color: #333;
-      transition: color 0.3s;
-    }
-    .nav-links a:hover {
-      color: #1565C0;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, #1E88E5, #1565C0);
-      color: #fff;
-      text-align: center;
-      padding: 5rem 1.5rem;
-    }
-    .hero h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 800px;
-      margin: 1rem auto;
-    }
-
-    /* Section Styles */
-    section {
-      padding: 4rem 1.5rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-    section h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2rem;
-      color: #1565C0;
+    .sidebar .profile {
       text-align: center;
       margin-bottom: 2rem;
     }
-
-    /* About Section */
-    .about {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .about img {
-      width: 250px;
+    .sidebar .profile img {
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
     }
-    .about .about-text {
-      flex: 1;
+    .sidebar .profile h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar .profile p {
       font-size: 1rem;
-      color: #666;
+      color: var(--text-muted);
     }
-    .about .skills {
-      margin-top: 1rem;
+    .sidebar .about {
+      margin-top: 1.5rem;
     }
-    .about .skills span {
+    .sidebar .about h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar .about p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .sidebar .skills span {
       display: inline-block;
       background: #e0f2f1;
       color: #00796b;
-      padding: 0.5rem 0.75rem;
+      padding: 0.4rem 0.6rem;
       border-radius: 5px;
-      margin: 0.25rem;
+      margin: 0.2rem;
+      font-size: 0.85rem;
     }
 
-    /* Projects Section */
-    .projects {
-      margin-top: 3rem;
+    /* Main Content (Right) */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+    .main-content h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 2rem;
     }
     .projects-grid {
       display: grid;
@@ -134,7 +116,7 @@
       padding: 1.5rem;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: block;
     }
     .project-card:hover {
@@ -144,66 +126,44 @@
     .project-card h3 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.2rem;
-      color: #1565C0;
+      color: var(--primary-color);
       margin-bottom: 0.5rem;
     }
     .project-card p {
       font-size: 0.95rem;
-      color: #666;
+      color: var(--text-muted);
     }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      background: #f2f2f2;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    /* Responsive */
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      .about {
-        flex-direction: column;
-        text-align: center;
-      }
-      .nav-container {
+      .container {
         flex-direction: column;
       }
-      .nav-links {
-        margin-top: 1rem;
+      .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        box-shadow: none;
+      }
+      .main-content {
+        padding: 1rem;
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Navigation -->
-  <nav>
-    <div class="nav-container">
-      <div class="nav-brand">Adam Curry</div>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
+  <div class="container">
+    <!-- Sidebar: About Me -->
+    <aside class="sidebar">
+      <div class="profile">
+        <img src="assets/profile.jpg" alt="Profile Picture">
+        <h2>Adam Curry</h2>
+        <p>Risk Analytics Professional</p>
       </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <div class="hero">
-    <h1>Adam Curry</h1>
-    <p>Risk Analytics Professional<br>Using data to drive smarter decisions and better strategies.</p>
-  </div>
-
-  <!-- About Section -->
-  <section id="about">
-    <h2>About Me</h2>
-    <div class="about">
-      <img src="assets/profile.jpg" alt="Profile Picture">
-      <div class="about-text">
+      <div class="about">
+        <h3>About Me</h3>
         <p>
-          I am a seasoned data professional with expertise in database management, analytics, and machine learning. 
-          My work spans SQL, SAS, Python, and Tableau, enabling robust solutions for complex business challenges.
+          I am a seasoned data professional with expertise in database management, analytics, and machine learning. I leverage tools like SQL, SAS, Python, and Tableau to deliver innovative solutions.
         </p>
         <div class="skills">
           <span>SQL</span>
@@ -212,13 +172,11 @@
           <span>Tableau</span>
         </div>
       </div>
-    </div>
-  </section>
+    </aside>
 
-  <!-- Projects Section -->
-  <section id="projects">
-    <h2>My Projects</h2>
-    <div class="projects">
+    <!-- Main Content: Projects -->
+    <main class="main-content">
+      <h2>My Projects</h2>
       <div class="projects-grid">
         <a href="conflict-of-interest.html" class="project-card">
           <h3>Conflict of Interest Detection</h3>
@@ -231,27 +189,24 @@
       </div>
 
       <h2 style="margin-top: 3rem;">Data Science Portfolio</h2>
-      <p style="text-align: center; margin-bottom: 2rem;">Projects completed as part of my Master's in Data Science.</p>
+      <p style="text-align: center; margin-bottom: 2rem;">
+        Projects completed as part of my Master's in Data Science.
+      </p>
       <div class="projects-grid">
         <a href="https://github.com/metelness/DSC550_ClassifyingData_Alcest" class="project-card" target="_blank">
           <h3>Classifying Data with Alcest</h3>
-          <p>Brief summary: A workflow covering data preprocessing, model selection, and performance evaluation.</p>
+          <p>
+            A workflow covering data preprocessing, model selection, and performance evaluation.
+          </p>
         </a>
         <a href="https://github.com/metelness/DSC540_DataPrep_SpotifyListeningHabits" class="project-card" target="_blank">
           <h3>Data Prep for Spotify Listening Habits</h3>
-          <p>Brief summary: Ingestion, cleaning, and transformation of streaming data to uncover listening trends.</p>
+          <p>
+            Ingestion, cleaning, and transformation of streaming data to uncover listening trends.
+          </p>
         </a>
       </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    &copy; <span id="year"></span> Adam Curry. All rights reserved.
-    <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
-  </footer>
-
+    </main>
+  </div>
 </body>
 </html>
