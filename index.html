@@ -15,39 +15,32 @@
     }
     html, body {
       font-family: 'Roboto', sans-serif;
-      color: #333;
+      color: #000;       /* Text is now black */
       line-height: 1.6;
+      background: #fff;  /* White background */
     }
     a {
       text-decoration: none;
-      color: inherit;
+      color: #000;       /* Links also black (adjust if you want them blue) */
     }
     img {
       display: block;
       max-width: 100%;
-    }
-    :root {
-      --primary-color: #1565C0;  /* Accent blue */
-      --bg-light: #e8f0f8;       /* Light blue-gray background */
-      --text-muted: #666;
     }
 
     /* Layout Container */
     .container {
       display: flex;
       min-height: 100vh;
-      background: var(--bg-light);
+      width: 100%;
+      margin: 0 auto;
     }
 
-    /* Sidebar (Left) */
+    /* Sidebar (About Section) */
     .sidebar {
-      width: 300px;
-      background: #fff;
+      width: 25%;              /* About section is ~1/4 of the page */
       padding: 2rem;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      /* Removed box shadow for a less apparent container */
     }
     .sidebar .profile {
       text-align: center;
@@ -57,31 +50,38 @@
       width: 150px;
       height: 150px;
       border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-bottom: 1rem;
     }
     .sidebar .profile h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.8rem;
-      color: var(--primary-color);
+      color: #000;  /* Black heading */
       margin-bottom: 0.5rem;
     }
     .sidebar .profile p {
       font-size: 1rem;
-      color: var(--text-muted);
+      color: #000;  /* Black text */
+      margin-bottom: 1rem;
+    }
+    .social-links {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .social-links a {
+      margin: 0 5px;
     }
     .sidebar .about {
-      margin-top: 1.5rem;
+      margin-top: 1rem;
     }
     .sidebar .about h3 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.2rem;
-      color: var(--primary-color);
+      color: #000;
       margin-bottom: 0.5rem;
     }
     .sidebar .about p {
       font-size: 0.95rem;
-      color: var(--text-muted);
+      color: #000;
       margin-bottom: 1rem;
     }
     .sidebar .skills span {
@@ -94,20 +94,21 @@
       font-size: 0.85rem;
     }
 
-    /* Main Content (Right) */
+    /* Main Content (Projects) */
     .main-content {
-      flex: 1;
+      flex: 1;  /* Takes remaining space (3/4) */
       padding: 2rem;
     }
     .main-content h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2rem;
-      color: var(--primary-color);
+      color: #000;
       text-align: center;
       margin-bottom: 2rem;
-      border-bottom: 2px solid var(--primary-color);
+      border-bottom: 2px solid #000;
       padding-bottom: 0.5rem;
     }
+
     /* Projects Grid: 3 columns on large screens */
     .projects-grid {
       display: grid;
@@ -118,16 +119,15 @@
       background: #fff;
       padding: 1rem;
       border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: block;
+      /* Removed box shadow for less apparent container */
+      transition: transform 0.3s ease;
       text-align: center;
       border-left: 4px solid transparent;
+      border: 1px solid #ddd; /* Subtle border instead of shadow (optional) */
     }
     .project-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-      border-left: 4px solid var(--primary-color);
+      border-left: 4px solid #1565C0;
     }
     /* Project Image Thumbnail */
     .project-card img {
@@ -140,12 +140,12 @@
     .project-card h3 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.1rem;
-      color: var(--primary-color);
+      color: #000;
       margin-bottom: 0.5rem;
     }
     .project-card p {
       font-size: 0.9rem;
-      color: var(--text-muted);
+      color: #000;
     }
 
     /* Responsive adjustments */
@@ -156,13 +156,11 @@
     }
     @media (max-width: 768px) {
       .container {
-        flex-direction: column;
+        flex-direction: column; /* Stack them on top of each other */
       }
       .sidebar {
         width: 100%;
-        position: relative;
         height: auto;
-        box-shadow: none;
       }
       .main-content {
         padding: 1rem;
@@ -181,11 +179,19 @@
         <img src="assets/profile.jpg" alt="Profile Picture">
         <h2>Adam Curry</h2>
         <p>Risk Analytics Professional</p>
+        <!-- Social Links -->
+        <div class="social-links">
+          <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a> |
+          <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+        </div>
       </div>
       <div class="about">
         <h3>About Me</h3>
         <p>
-          I am a seasoned data professional with expertise in database management, analytics, and machine learning. I leverage tools like SQL, SAS, Python, and Tableau to deliver innovative solutions.
+          I am a seasoned data professional with expertise in database management, analytics, and 
+          machine learning. I leverage tools like SQL, SAS, Python, and Tableau to deliver 
+          innovative solutions. I have a strong passion for uncovering insights and driving 
+          strategic decisions based on data.
         </p>
         <div class="skills">
           <span>SQL</span>
