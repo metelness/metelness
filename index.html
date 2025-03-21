@@ -71,6 +71,24 @@
       font-size: 1rem;
       color: var(--text-muted);
     }
+    /* Social Links Styling */
+    .social-links {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .social-links a {
+      margin: 0 5px;
+      display: inline-block;
+    }
+    .social-links img {
+      width: 30px;
+      height: 30px;
+      transition: transform 0.3s ease;
+    }
+    .social-links img:hover {
+      transform: scale(1.1);
+    }
+    
     .sidebar .about {
       margin-top: 1.5rem;
     }
@@ -181,6 +199,18 @@
         <img src="assets/profile.jpg" alt="Profile Picture">
         <h2>Adam Curry</h2>
         <p>Risk Analytics Professional</p>
+        <!-- Social Links -->
+        <div class="social-links">
+          <a href="https://linkedin.com/in/adampcurry" target="_blank">
+            <img src="assets/linkedin.png" alt="LinkedIn">
+          </a>
+          <a href="https://github.com/metelness" target="_blank">
+            <img src="assets/github.png" alt="GitHub">
+          </a>
+          <a href="resume.pdf" target="_blank">
+            <img src="assets/resume.png" alt="Resume">
+          </a>
+        </div>
       </div>
       <div class="about">
         <h3>About Me</h3>
