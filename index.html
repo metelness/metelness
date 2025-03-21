@@ -7,77 +7,44 @@
   <!-- Google Fonts: Poppins for body, Montserrat for headings -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* Base Reset & Typography */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      font-family: 'Poppins', sans-serif;
-      color: #212121;
-      line-height: 1.6;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    img {
-      display: block;
-      max-width: 100%;
-    }
-    :root {
-      --primary-color: #3a86ff;     /* Accent Blue */
-      --bg-light: #f1f5f8;          /* Light Grayish Blue background */
-      --bg-sidebar: #ffffff;        /* White sidebar */
-      --text-muted: #777;
-    }
+    /* Base Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #f9f9f9; color: #333; }
+    a { text-decoration: none; color: inherit; }
     
-    /* Layout Container */
+    /* Container */
     .container {
-      display: flex;
-      min-height: 100vh;
-      background: var(--bg-light);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
     }
     
-    /* Sidebar (Left) */
-    .sidebar {
-      width: 300px;
-      background: var(--bg-sidebar);
-      padding: 2rem;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      height: 100vh;
-    }
-    .sidebar .profile {
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      margin-bottom: 2rem;
+      padding: 0 20px;
     }
-    .sidebar .profile img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      margin-bottom: 1rem;
-    }
-    .sidebar .profile h2 {
+    .hero h1 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.8rem;
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: #3a86ff;
     }
-    .sidebar .profile p {
-      font-size: 1rem;
-      color: var(--text-muted);
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #555;
     }
-    /* Social Links Styling */
     .social-links {
-      text-align: center;
-      margin-top: 1rem;
+      margin-top: 20px;
     }
     .social-links a {
-      margin: 0 5px;
+      margin: 0 10px;
       display: inline-block;
     }
     .social-links img {
@@ -85,217 +52,112 @@
       height: 30px;
       transition: transform 0.3s ease;
     }
-    .social-links img:hover {
-      transform: scale(1.1);
-    }
+    .social-links img:hover { transform: scale(1.1); }
     
-    .sidebar .about {
-      margin-top: 1.5rem;
-    }
-    .sidebar .about h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.2rem;
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
-    }
-    .sidebar .about p {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-    .sidebar .skills span {
-      display: inline-block;
-      background: #e0f2f1;
-      color: #00796b;
-      padding: 0.5rem 0.75rem;
-      border-radius: 5px;
-      margin: 0.25rem;
-      font-size: 0.85rem;
-    }
-    
-    /* Main Content (Right) */
-    .main-content {
-      flex: 1;
-      padding: 2rem;
-    }
-    .main-content h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2rem;
-      color: var(--primary-color);
+    /* Projects Section */
+    .projects {
+      margin: 100px 0;
       text-align: center;
-      margin-bottom: 2rem;
-      border-bottom: 2px solid var(--primary-color);
-      padding-bottom: 0.5rem;
     }
-    
-    /* Projects Grid: 3 columns on large screens */
-    .projects-grid {
+    .projects h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #3a86ff;
+    }
+    .project-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
     .project-card {
-      background: #ffffff;
-      padding: 1rem;
+      background: #fff;
+      padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-align: center;
-      border-left: 4px solid transparent;
+      transition: transform 0.3s ease;
+      text-align: left;
     }
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-      border-left: 4px solid var(--primary-color);
-    }
+    .project-card:hover { transform: translateY(-5px); }
     .project-card img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 5px;
-      margin: 0 auto 0.75rem;
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
     }
     .project-card h3 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.1rem;
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #3a86ff;
     }
     .project-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
+      color: #777;
+      font-size: 1rem;
+      line-height: 1.4;
     }
     
-    /* Responsive adjustments */
-    @media (max-width: 1024px) {
-      .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #777;
+      border-top: 1px solid #ddd;
     }
+    
+    /* Responsive */
     @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .sidebar {
-        width: 100%;
-        position: relative;
-        height: auto;
-        box-shadow: none;
-      }
-      .main-content {
-        padding: 1rem;
-      }
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
+      .hero h1 { font-size: 2.8rem; }
+      .hero p { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Sidebar: About Me -->
-    <aside class="sidebar">
-      <div class="profile">
-        <img src="assets/profile.jpg" alt="Profile Picture">
-        <h2>Adam Curry</h2>
-        <p>Risk Analytics Professional</p>
-        <!-- Social Links -->
-        <div class="social-links">
-          <a href="https://linkedin.com/in/adampcurry" target="_blank">
-            <img src="assets/linkedin.png" alt="LinkedIn">
-          </a>
-          <a href="https://github.com/metelness" target="_blank">
-            <img src="assets/github.png" alt="GitHub">
-          </a>
-          <a href="resume.pdf" target="_blank">
-            <img src="assets/resume.png" alt="Resume">
-          </a>
-        </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Adam Curry</h1>
+      <p>Risk Analytics Professional</p>
+      <!-- Social Links -->
+      <div class="social-links">
+        <a href="https://linkedin.com/in/yourusername" target="_blank">
+          <img src="assets/linkedin.png" alt="LinkedIn">
+        </a>
+        <a href="https://github.com/yourusername" target="_blank">
+          <img src="assets/github.png" alt="GitHub">
+        </a>
+        <a href="resume.pdf" target="_blank">
+          <img src="assets/resume.png" alt="Resume">
+        </a>
       </div>
-      <div class="about">
-        <h3>About Me</h3>
-        <p>
-          I am a seasoned data professional with expertise in database management, analytics, and machine learning. I leverage tools like SQL, SAS, Python, and Tableau to deliver innovative solutions.
-        </p>
-        <div class="skills">
-          <span>SQL</span>
-          <span>SAS</span>
-          <span>Python</span>
-          <span>Tableau</span>
-        </div>
-      </div>
-    </aside>
+    </section>
     
-    <!-- Main Content: Projects -->
-    <main class="main-content">
-      <h2>My Projects</h2>
-      <div class="projects-grid">
-        <a href="conflict-of-interest.html" class="project-card">
-          <img src="assets/conflict.jpg" alt="Conflict of Interest Detection">
-          <h3>Conflict of Interest Detection</h3>
-          <p>Used SQL and SAS to identify potential conflicts in employee transactions.</p>
-        </a>
-        <a href="presence-detection.html" class="project-card">
-          <img src="assets/presence.jpg" alt="Presence Detection System">
-          <h3>Presence Detection System</h3>
-          <p>Developed a system using Python, SQL, and SAS to detect individual presence during interactions.</p>
-        </a>
-        <!-- Placeholder projects -->
-        <a href="#" class="project-card">
-          <img src="assets/placeholder1.jpg" alt="Placeholder Project">
-          <h3>Placeholder Project 1</h3>
-          <p>Short description for this project.</p>
-        </a>
-        <a href="#" class="project-card">
-          <img src="assets/placeholder2.jpg" alt="Placeholder Project">
-          <h3>Placeholder Project 2</h3>
-          <p>Short description for this project.</p>
-        </a>
+    <!-- Projects Section -->
+    <section class="projects">
+      <h2>Projects</h2>
+      <div class="project-grid">
+        <div class="project-card">
+          <img src="assets/project1.jpg" alt="Project 1">
+          <h3>Project Title 1</h3>
+          <p>A brief description of your project goes here. It should be concise and compelling.</p>
+        </div>
+        <div class="project-card">
+          <img src="assets/project2.jpg" alt="Project 2">
+          <h3>Project Title 2</h3>
+          <p>A brief description of your project goes here. Highlight key technologies and achievements.</p>
+        </div>
+        <div class="project-card">
+          <img src="assets/project3.jpg" alt="Project 3">
+          <h3>Project Title 3</h3>
+          <p>A brief description of your project goes here. Focus on outcomes and impact.</p>
+        </div>
+        <!-- Add more project cards as needed -->
       </div>
-      
-      <h2 style="margin-top: 2rem;">Data Science Portfolio</h2>
-      <p style="text-align: center; margin-bottom: 1.5rem;">
-        Projects completed as part of my Master's in Data Science.
-      </p>
-      <div class="projects-grid">
-        <a href="https://github.com/metelness/DSC550_ClassifyingData_Alcest" class="project-card" target="_blank">
-          <img src="assets/alcest.jpg" alt="Classifying Data with Alcest">
-          <h3>Classifying Data with Alcest</h3>
-          <p>A workflow covering data preprocessing, model selection, and performance evaluation.</p>
-        </a>
-        <a href="https://github.com/metelness/DSC540_DataPrep_SpotifyListeningHabits" class="project-card" target="_blank">
-          <img src="assets/spotify.jpg" alt="Data Prep for Spotify Listening Habits">
-          <h3>Data Prep for Spotify Listening Habits</h3>
-          <p>Ingestion, cleaning, and transformation of streaming data to uncover listening trends.</p>
-        </a>
-        <!-- Additional Data Science Projects -->
-        <a href="https://github.com/metelness/DSC550DataMining_TrumpTweets" class="project-card" target="_blank">
-          <img src="assets/trumptweets.jpg" alt="Data Mining: Trump Tweets">
-          <h3>Data Mining: Trump Tweets</h3>
-          <p>Mining Twitter data for sentiment and topic analysis related to Trump.</p>
-        </a>
-        <a href="https://github.com/metelness/DSC630PredictiveAnalytics_CovidEconomy" class="project-card" target="_blank">
-          <img src="assets/covideconomy.jpg" alt="Predictive Analytics: Covid Economy">
-          <h3>Predictive Analytics: Covid Economy</h3>
-          <p>Predicting economic trends during Covid using advanced statistical models.</p>
-        </a>
-        <a href="https://github.com/metelness/DataSciencePortfolio/tree/main/Project12_StateMaskMandates" class="project-card" target="_blank">
-          <img src="assets/maskmandates.jpg" alt="State Mask Mandates Analysis">
-          <h3>State Mask Mandates Analysis</h3>
-          <p>Analyzing the impact of state-level mask mandates on Covid spread.</p>
-        </a>
-        <a href="https://github.com/metelness/DataSciencePortfolio/tree/main/Project10_VGX_SenntimentAnalysis" class="project-card" target="_blank">
-          <img src="assets/vgx.jpg" alt="VGX Sentiment Analysis">
-          <h3>VGX Sentiment Analysis</h3>
-          <p>Evaluating social media sentiment on VGX using NLP techniques.</p>
-        </a>
-        <a href="https://github.com/metelness/DataSciencePortfolio/tree/main/Project1_AirBnb_EDA/DSC530ExploratoryDataAnalysis_Airbnb-master" class="project-card" target="_blank">
-          <img src="assets/airbnb.jpg" alt="Airbnb EDA">
-          <h3>Airbnb Exploratory Data Analysis</h3>
-          <p>Exploratory analysis on Airbnb listings to uncover market trends.</p>
-        </a>
-      </div>
-    </main>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Adam Curry. All rights reserved.</p>
+    </footer>
   </div>
 </body>
 </html>
