@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Adam Curry | Data Professional</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Poppins for body, Montserrat for headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     /* Base Reset & Typography */
     * {
@@ -14,8 +14,8 @@
       box-sizing: border-box;
     }
     html, body {
-      font-family: 'Roboto', sans-serif;
-      color: #333;
+      font-family: 'Poppins', sans-serif;
+      color: #212121;
       line-height: 1.6;
     }
     a {
@@ -27,22 +27,23 @@
       max-width: 100%;
     }
     :root {
-      --primary-color: #1565C0;  /* Accent blue */
-      --bg-light: #e8f0f8;       /* Light blue-gray background */
-      --text-muted: #666;
+      --primary-color: #3a86ff;     /* Accent Blue */
+      --bg-light: #f1f5f8;          /* Light Grayish Blue background */
+      --bg-sidebar: #ffffff;        /* White sidebar */
+      --text-muted: #777;
     }
-
+    
     /* Layout Container */
     .container {
       display: flex;
       min-height: 100vh;
       background: var(--bg-light);
     }
-
+    
     /* Sidebar (Left) */
     .sidebar {
       width: 300px;
-      background: #fff;
+      background: var(--bg-sidebar);
       padding: 2rem;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       position: sticky;
@@ -93,7 +94,7 @@
       margin: 0.25rem;
       font-size: 0.85rem;
     }
-
+    
     /* Main Content (Right) */
     .main-content {
       flex: 1;
@@ -108,6 +109,7 @@
       border-bottom: 2px solid var(--primary-color);
       padding-bottom: 0.5rem;
     }
+    
     /* Projects Grid: 3 columns on large screens */
     .projects-grid {
       display: grid;
@@ -115,12 +117,11 @@
       gap: 1.5rem;
     }
     .project-card {
-      background: #fff;
+      background: #ffffff;
       padding: 1rem;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: block;
       text-align: center;
       border-left: 4px solid transparent;
     }
@@ -129,7 +130,6 @@
       box-shadow: 0 6px 15px rgba(0,0,0,0.15);
       border-left: 4px solid var(--primary-color);
     }
-    /* Project Image Thumbnail */
     .project-card img {
       width: 80px;
       height: 80px;
@@ -147,7 +147,7 @@
       font-size: 0.9rem;
       color: var(--text-muted);
     }
-
+    
     /* Responsive adjustments */
     @media (max-width: 1024px) {
       .projects-grid {
@@ -195,7 +195,7 @@
         </div>
       </div>
     </aside>
-
+    
     <!-- Main Content: Projects -->
     <main class="main-content">
       <h2>My Projects</h2>
