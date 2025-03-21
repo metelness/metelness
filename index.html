@@ -106,9 +106,10 @@
       text-align: center;
       margin-bottom: 2rem;
     }
+    /* Projects Grid: 3 columns on large screens */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
     .project-card {
@@ -118,6 +119,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: block;
+      text-align: center;
     }
     .project-card:hover {
       transform: translateY(-5px);
@@ -129,22 +131,25 @@
       height: 80px;
       object-fit: cover;
       border-radius: 5px;
-      margin: 0 auto 0.75rem auto;
+      margin: 0 auto 0.75rem;
     }
     .project-card h3 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.1rem;
       color: var(--primary-color);
       margin-bottom: 0.5rem;
-      text-align: center;
     }
     .project-card p {
       font-size: 0.9rem;
       color: var(--text-muted);
-      text-align: center;
     }
 
     /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
@@ -157,6 +162,9 @@
       }
       .main-content {
         padding: 1rem;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -198,8 +206,19 @@
           <h3>Presence Detection System</h3>
           <p>Developed a system using Python, SQL, and SAS to detect individual presence during interactions.</p>
         </a>
+        <!-- Placeholder projects -->
+        <a href="#" class="project-card">
+          <img src="assets/placeholder1.jpg" alt="Placeholder Project">
+          <h3>Placeholder Project 1</h3>
+          <p>Short description for this project.</p>
+        </a>
+        <a href="#" class="project-card">
+          <img src="assets/placeholder2.jpg" alt="Placeholder Project">
+          <h3>Placeholder Project 2</h3>
+          <p>Short description for this project.</p>
+        </a>
       </div>
-
+      
       <h2 style="margin-top: 2rem;">Data Science Portfolio</h2>
       <p style="text-align: center; margin-bottom: 1.5rem;">
         Projects completed as part of my Master's in Data Science.
@@ -214,6 +233,32 @@
           <img src="assets/spotify.jpg" alt="Data Prep for Spotify Listening Habits">
           <h3>Data Prep for Spotify Listening Habits</h3>
           <p>Ingestion, cleaning, and transformation of streaming data to uncover listening trends.</p>
+        </a>
+        <!-- Additional Data Science Projects -->
+        <a href="https://github.com/metelness/DSC550DataMining_TrumpTweets" class="project-card" target="_blank">
+          <img src="assets/trumptweets.jpg" alt="Data Mining: Trump Tweets">
+          <h3>Data Mining: Trump Tweets</h3>
+          <p>Mining Twitter data for sentiment and topic analysis related to Trump.</p>
+        </a>
+        <a href="https://github.com/metelness/DSC630PredictiveAnalytics_CovidEconomy" class="project-card" target="_blank">
+          <img src="assets/covideconomy.jpg" alt="Predictive Analytics: Covid Economy">
+          <h3>Predictive Analytics: Covid Economy</h3>
+          <p>Predicting economic trends during Covid using advanced statistical models.</p>
+        </a>
+        <a href="https://github.com/metelness/DataSciencePortfolio/tree/main/Project12_StateMaskMandates" class="project-card" target="_blank">
+          <img src="assets/maskmandates.jpg" alt="State Mask Mandates Analysis">
+          <h3>State Mask Mandates Analysis</h3>
+          <p>Analyzing the impact of state-level mask mandates on Covid spread.</p>
+        </a>
+        <a href="https://github.com/metelness/DataSciencePortfolio/tree/main/Project10_VGX_SenntimentAnalysis" class="project-card" target="_blank">
+          <img src="assets/vgx.jpg" alt="VGX Sentiment Analysis">
+          <h3>VGX Sentiment Analysis</h3>
+          <p>Evaluating social media sentiment on VGX using NLP techniques.</p>
+        </a>
+        <a href="https://github.com/metelness/DataSciencePortfolio/tree/main/Project1_AirBnb_EDA/DSC530ExploratoryDataAnalysis_Airbnb-master" class="project-card" target="_blank">
+          <img src="assets/airbnb.jpg" alt="Airbnb EDA">
+          <h3>Airbnb Exploratory Data Analysis</h3>
+          <p>Exploratory analysis on Airbnb listings to uncover market trends.</p>
         </a>
       </div>
     </main>
