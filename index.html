@@ -28,7 +28,7 @@
     }
     :root {
       --primary-color: #1565C0;  /* Accent blue */
-      --bg-light: #f9f9f9;
+      --bg-light: #e8f0f8;       /* Light blue-gray background */
       --text-muted: #666;
     }
 
@@ -105,6 +105,8 @@
       color: var(--primary-color);
       text-align: center;
       margin-bottom: 2rem;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
     }
     /* Projects Grid: 3 columns on large screens */
     .projects-grid {
@@ -120,10 +122,12 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: block;
       text-align: center;
+      border-left: 4px solid transparent;
     }
     .project-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      border-left: 4px solid var(--primary-color);
     }
     /* Project Image Thumbnail */
     .project-card img {
