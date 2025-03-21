@@ -88,9 +88,9 @@
       display: inline-block;
       background: #e0f2f1;
       color: #00796b;
-      padding: 0.4rem 0.6rem;
+      padding: 0.5rem 0.75rem;
       border-radius: 5px;
-      margin: 0.2rem;
+      margin: 0.25rem;
       font-size: 0.85rem;
     }
 
@@ -108,12 +108,12 @@
     }
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
     }
     .project-card {
       background: #fff;
-      padding: 1.5rem;
+      padding: 1rem;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -123,14 +123,20 @@
       transform: translateY(-5px);
       box-shadow: 0 6px 15px rgba(0,0,0,0.15);
     }
+    .project-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 0.75rem;
+    }
     .project-card h3 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--primary-color);
       margin-bottom: 0.5rem;
     }
     .project-card p {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
     }
 
@@ -179,31 +185,31 @@
       <h2>My Projects</h2>
       <div class="projects-grid">
         <a href="conflict-of-interest.html" class="project-card">
+          <img src="assets/conflict.jpg" alt="Conflict of Interest Detection">
           <h3>Conflict of Interest Detection</h3>
           <p>Used SQL and SAS to identify potential conflicts in employee transactions.</p>
         </a>
         <a href="presence-detection.html" class="project-card">
+          <img src="assets/presence.jpg" alt="Presence Detection System">
           <h3>Presence Detection System</h3>
           <p>Developed a system using Python, SQL, and SAS to detect individual presence during interactions.</p>
         </a>
       </div>
 
-      <h2 style="margin-top: 3rem;">Data Science Portfolio</h2>
-      <p style="text-align: center; margin-bottom: 2rem;">
+      <h2 style="margin-top: 2rem;">Data Science Portfolio</h2>
+      <p style="text-align: center; margin-bottom: 1.5rem;">
         Projects completed as part of my Master's in Data Science.
       </p>
       <div class="projects-grid">
         <a href="https://github.com/metelness/DSC550_ClassifyingData_Alcest" class="project-card" target="_blank">
+          <img src="assets/alcest.jpg" alt="Classifying Data with Alcest">
           <h3>Classifying Data with Alcest</h3>
-          <p>
-            A workflow covering data preprocessing, model selection, and performance evaluation.
-          </p>
+          <p>A workflow covering data preprocessing, model selection, and performance evaluation.</p>
         </a>
         <a href="https://github.com/metelness/DSC540_DataPrep_SpotifyListeningHabits" class="project-card" target="_blank">
+          <img src="assets/spotify.jpg" alt="Data Prep for Spotify Listening Habits">
           <h3>Data Prep for Spotify Listening Habits</h3>
-          <p>
-            Ingestion, cleaning, and transformation of streaming data to uncover listening trends.
-          </p>
+          <p>Ingestion, cleaning, and transformation of streaming data to uncover listening trends.</p>
         </a>
       </div>
     </main>
