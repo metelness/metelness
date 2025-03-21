@@ -15,10 +15,10 @@
     }
     html, body {
       font-family: 'Roboto', sans-serif;
-      background: #fff;   /* White background */
-      color: #000;        /* Black text */
+      background: #fff;
+      color: #000;
       line-height: 1.6;
-      height: 100%;       /* Ensures container can use full viewport height */
+      height: 100%;
     }
     a {
       text-decoration: none;
@@ -28,22 +28,21 @@
       max-width: 100%;
     }
 
-    /* Container takes full viewport height, but we remove overflow: hidden; */
+    /* Container takes full viewport height so sidebar can stay pinned */
     .container {
       display: flex;
-      height: 100vh;       /* Full viewport height */
-      /* overflow: hidden;  Removed to prevent cutting off project cards */
+      height: 100vh;
       width: 100%;
       margin: 0 auto;
     }
 
     /* Sidebar (About Section) */
     .sidebar {
-      width: 33.3%;          /* About Me is ~1/3 of the page */
+      width: 30%;              /* Reduced from 33.3% to 30% */
       padding: 2rem 2rem 2rem 3rem; /* Left padding added */
-      position: sticky;      /* Stays in place */
+      position: sticky;
       top: 0;
-      overflow: auto;        /* Scroll if content overflows, but remains pinned */
+      overflow: auto;
     }
     .sidebar .profile {
       text-align: center;
@@ -55,7 +54,6 @@
       border-radius: 50%;
       margin: 0 auto 1rem auto;
     }
-    /* Modern blue for name, job title, and social links */
     .sidebar .profile h2,
     .sidebar .profile p,
     .social-links a {
@@ -77,14 +75,13 @@
     .social-links a {
       margin: 0 5px;
     }
-
     .sidebar .about {
       margin-top: 1rem;
     }
     .sidebar .about h3 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.2rem;
-      color: #000; /* Keep About Me heading black */
+      color: #000;
       margin-bottom: 0.5rem;
     }
     .sidebar .about p {
@@ -104,8 +101,8 @@
 
     /* Main Content (Projects) */
     .main-content {
-      flex: 1;               /* Occupies remaining space (2/3) */
-      overflow-y: auto;      /* Only this section scrolls */
+      flex: 1;
+      overflow-y: auto;
       padding: 2rem;
     }
     .main-content h2 {
@@ -114,7 +111,7 @@
       color: #000;
       text-align: center;
       margin-bottom: 2rem;
-      border-bottom: 2px solid #555;  /* Lighter black line */
+      border-bottom: 2px solid #ccc;  /* Lighter underline */
       padding-bottom: 0.5rem;
     }
 
@@ -130,14 +127,13 @@
       border-radius: 8px;
       transition: transform 0.3s ease;
       text-align: center;
-      border: 1px solid #ddd;  /* Subtle border instead of shadow */
+      border: 1px solid #ddd;
       border-left: 4px solid transparent;
     }
     .project-card:hover {
       transform: translateY(-5px);
       border-left: 4px solid #1565C0;
     }
-    /* Project Image Thumbnail */
     .project-card img {
       width: 80px;
       height: 80px;
@@ -151,7 +147,6 @@
       color: #000;
       margin-bottom: 0.5rem;
     }
-    /* Project description: lighter black & italics */
     .project-card p {
       font-size: 0.9rem;
       color: #555;     /* Lighter black */
@@ -166,7 +161,7 @@
     }
     @media (max-width: 768px) {
       .container {
-        flex-direction: column; /* Stack sidebar and content */
+        flex-direction: column;
       }
       .sidebar {
         width: 100%;
