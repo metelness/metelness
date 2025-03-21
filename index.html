@@ -15,32 +15,35 @@
     }
     html, body {
       font-family: 'Roboto', sans-serif;
-      color: #000;       /* Text is now black */
+      background: #fff;   /* White background */
+      color: #000;        /* Black text */
       line-height: 1.6;
-      background: #fff;  /* White background */
+      height: 100%;       /* Ensures container can use full viewport height */
     }
     a {
       text-decoration: none;
-      color: #000;       /* Links also black (adjust if you want them blue) */
     }
     img {
       display: block;
       max-width: 100%;
     }
 
-    /* Layout Container */
+    /* Container takes full viewport height, so sidebar can stay pinned */
     .container {
       display: flex;
-      min-height: 100vh;
+      height: 100vh;         /* Full viewport height */
+      overflow: hidden;      /* We'll scroll only the main content */
       width: 100%;
       margin: 0 auto;
     }
 
     /* Sidebar (About Section) */
     .sidebar {
-      width: 25%;              /* About section is ~1/4 of the page */
-      padding: 2rem;
-      /* Removed box shadow for a less apparent container */
+      width: 33.3%;          /* About Me is ~1/3 of the page */
+      padding: 2rem 2rem 2rem 3rem; /* Left padding added */
+      position: sticky;      /* Stays in place */
+      top: 0;
+      overflow: auto;        /* Scrolls if content overflows, but remains pinned */
     }
     .sidebar .profile {
       text-align: center;
@@ -50,17 +53,21 @@
       width: 150px;
       height: 150px;
       border-radius: 50%;
-      margin-bottom: 1rem;
+      margin: 0 auto 1rem auto;
+    }
+    /* Modern blue for name, job title, and social links */
+    .sidebar .profile h2,
+    .sidebar .profile p,
+    .social-links a {
+      color: #1565C0;  /* Modern blue */
     }
     .sidebar .profile h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.8rem;
-      color: #000;  /* Black heading */
       margin-bottom: 0.5rem;
     }
     .sidebar .profile p {
       font-size: 1rem;
-      color: #000;  /* Black text */
       margin-bottom: 1rem;
     }
     .social-links {
@@ -70,13 +77,14 @@
     .social-links a {
       margin: 0 5px;
     }
+
     .sidebar .about {
       margin-top: 1rem;
     }
     .sidebar .about h3 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.2rem;
-      color: #000;
+      color: #000; /* Keep About Me heading black */
       margin-bottom: 0.5rem;
     }
     .sidebar .about p {
@@ -96,7 +104,8 @@
 
     /* Main Content (Projects) */
     .main-content {
-      flex: 1;  /* Takes remaining space (3/4) */
+      flex: 1;               /* Occupies remaining space (2/3) */
+      overflow-y: auto;      /* Only this section scrolls */
       padding: 2rem;
     }
     .main-content h2 {
@@ -119,11 +128,10 @@
       background: #fff;
       padding: 1rem;
       border-radius: 8px;
-      /* Removed box shadow for less apparent container */
       transition: transform 0.3s ease;
       text-align: center;
+      border: 1px solid #ddd;  /* Subtle border instead of shadow */
       border-left: 4px solid transparent;
-      border: 1px solid #ddd; /* Subtle border instead of shadow (optional) */
     }
     .project-card:hover {
       transform: translateY(-5px);
@@ -156,14 +164,16 @@
     }
     @media (max-width: 768px) {
       .container {
-        flex-direction: column; /* Stack them on top of each other */
+        flex-direction: column; /* Stack sidebar and content */
       }
       .sidebar {
         width: 100%;
         height: auto;
+        padding: 2rem;
       }
       .main-content {
         padding: 1rem;
+        height: auto;
       }
       .projects-grid {
         grid-template-columns: 1fr;
@@ -188,8 +198,8 @@
       <div class="about">
         <h3>About Me</h3>
         <p>
-          I am a seasoned data professional with expertise in database management, analytics, and 
-          machine learning. I leverage tools like SQL, SAS, Python, and Tableau to deliver 
+          I am a seasoned data professional with expertise in database management, analytics, 
+          and machine learning. I leverage tools like SQL, SAS, Python, and Tableau to deliver 
           innovative solutions. I have a strong passion for uncovering insights and driving 
           strategic decisions based on data.
         </p>
