@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anomaly Detection in Fraud Money Movement - Teradata SQL Queries</title>
+  <title>Anomaly Detection in Fraud Money Movement - Teradata SQL, Python, and SAS</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     h1, h2 { color: #333; }
@@ -14,10 +14,12 @@
 <body>
   <h1>Anomaly Detection in Fraud Money Movement</h1>
   <p><a href="index.html">Back to Home</a></p>
-
+  <p>
+Below is an oversimplified methodology used to find high dollar money movement. The general concept being, these outliers were signals of nefarious intent. The data is made up, but the code gives a glimpse of my coding style, along with real methods used to find outlier behavior. I also included maps for visual context to aid researching teams. This process was later automated in SAS and put into a production environment.
+  </p>
   <h2>Query 1: Account Extraction and Union of Consumer & Business Sales</h2>
   <p>
-    This query begins by extracting all accounts opened by employees. The consumer sales data (which only includes consumer customer numbers) is unioned with business account sales. For business accounts, additional tables are joined to retrieve signer information. Note that money movement where the customer is related to (or personally acquainted with) the counterparty is excluded from the main calculations, although these “related” funds are flagged as a data point. The business account data is assumed to reside in a sandbox table within Teradata.
+    This query begins by extracting all accounts opened by employees. The consumer sales data (which only includes consumer customers) is unioned with business account sales. For business accounts, additional tables are joined to retrieve signer information. Note that money movement where the customer is related to (or personally acquainted with) the counterparty is excluded from the main calculations, although these “related” funds are flagged as a data point. The business account data is assumed to reside in a sandbox table within Teradata.
   </p>
   <pre>
 -- Query 1: Extract and Union Consumer and Business Sale Data
