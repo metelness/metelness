@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anomaly Detection in Fraud Money Movement - Teradata SQL Queries</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1, h2 { color: #333; }
+    pre { background-color: #f8f8f8; padding: 10px; border: 1px solid #ddd; overflow-x: auto; }
+    code { font-family: Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <h1>Anomaly Detection in Fraud Money Movement</h1>
+  <p><a href="index.html">Back to Home</a></p>
+
+  <h2>Query 1: Account Extraction and Union of Consumer & Business Sales</h2>
+  <p>
+    This query begins by extracting all accounts opened by employees. The consumer sales data (which only includes consumer customer numbers) is unioned with business account sales. For business accounts, additional tables are joined to retrieve signer information. Note that money movement where the customer is related to (or personally acquainted with) the counterparty is excluded from the main calculations, although these “related” funds are flagged as a data point. The business account data is assumed to reside in a sandbox table within Teradata.
+  </p>
+  <pre>
+-- Query 1: Extract and Union Consumer and Business Sale Data
+-- Note: Business account data is joined with signer info. 
+-- Related customer transactions are flagged but excluded from core calculations.
+SELECT 
+    cs.customer_num,
+    cs.account_id,
+    cs.open_date,
+    cs.sale_amount,
+    'Consumer' AS account_type,
+    NULL AS signer_info,
+    CASE WHEN r.related_flag = 'Y' THEN 'Related' ELSE 'Not Related' END AS relationship_status
+FROM consumer_sales cs
+LEFT JOIN relationships r
+    ON cs.customer_num = r.customer_num
+WHERE cs.opened_by = 'Employee'
+  AND (r.related_flag IS NULL OR r.related_flag = 'N')
+
+UNION ALL
+
+SELECT 
+    bs.business_customer_num AS customer_num,
+    bs.account_id,
+    bs.open_date,
+    bs.sale_amount,
+    'Business' AS account_type,
+    si.signer_name AS signer_info,
+    CASE WHEN r.related_flag = 'Y' THEN 'Related' ELSE 'Not Related' END AS relationship_status
+FROM business_sales bs
+JOIN signer_info si
+    ON bs.account_id = si.account_id
+LEFT JOIN relationships r
+    ON bs.business_customer_num = r.customer_num
+WHERE bs.opened_by = 'Employee'
+  AND (r.related_flag IS NULL OR r.related_flag = 'N');
+  </pre>
+
+  <h2>Query 2: Normalization of Check Writing Data & Outlier Detection</h2>
+  <p>
+    In this step, the check writing data is normalized by the "age" of the relationship – defined by the first check writing date. The end of the relationship is either the account closed date or the current date. Standard deviation and quartile calculations are then used to pinpoint outliers in check amounts.
+  </p>
+  <pre>
+-- Query 2: Normalize Check Writing Data and Identify Outliers
+WITH check_data AS (
+  SELECT 
+      account_id,
+      MIN(check_date) AS relationship_start,
+      COALESCE(closed_date, CURRENT_DATE) AS relationship_end,
+      DATEDIFF(day, MIN(check_date), COALESCE(closed_date, CURRENT_DATE)) AS relationship_age,
+      check_amount
+  FROM check_transactions
+  GROUP BY account_id, closed_date, check_amount
+)
+SELECT 
+  account_id,
+  relationship_start,
+  relationship_end,
+  relationship_age,
+  check_amount,
+  AVG(check_amount) OVER () AS avg_amount,
+  STDDEV(check_amount) OVER () AS std_amount,
+  PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY check_amount) OVER () AS first_quartile,
+  PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY check_amount) OVER () AS third_quartile
+FROM check_data
+HAVING check_amount > (AVG(check_amount) OVER () + STDDEV(check_amount) OVER ());
+  </pre>
+
+  <h2>Query 3: Normalization & Outlier Analysis in Person-to-Person Transactions</h2>
+  <p>
+    This query normalizes person-to-person transaction data by the start of the relationship (first transaction date) and uses the account’s closed date or current date as the endpoint. It calculates key metrics:
+  </p>
+  <ul>
+    <li>Count of transactions to non-customers</li>
+    <li>Count of unique ID labels (phone/email) used</li>
+    <li>Total amount sent and received</li>
+    <li>A “washed funds” flag that checks if the funds sent and received are approximately equal (within 80%)</li>
+  </ul>
+  <pre>
+-- Query 3: Normalize Person-to-Person Transactions and Detect Outliers
+WITH p2p_data AS (
+  SELECT 
+      account_id,
+      MIN(transaction_date) AS relationship_start,
+      COALESCE(closed_date, CURRENT_DATE) AS relationship_end,
+      COUNT(CASE WHEN recipient_type = 'Non-Customer' THEN 1 END) AS non_customer_txn_count,
+      COUNT(DISTINCT id_label) AS unique_id_labels,
+      SUM(amount_sent) AS total_sent,
+      SUM(amount_received) AS total_received,
+      CASE 
+          WHEN SUM(amount_received) > 0 
+               AND ABS(SUM(amount_sent) - SUM(amount_received)) / SUM(amount_received) <= 0.2 
+          THEN 'Washed' 
+          ELSE 'Not Washed' 
+      END AS washed_flag
+  FROM p2p_transactions
+  GROUP BY account_id, closed_date
+)
+SELECT 
+  account_id,
+  relationship_start,
+  relationship_end,
+  non_customer_txn_count,
+  unique_id_labels,
+  total_sent,
+  total_received,
+  washed_flag,
+  AVG(total_sent) OVER () AS avg_sent,
+  STDDEV(total_sent) OVER () AS std_sent,
+  PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY total_sent) OVER () AS first_quartile_sent,
+  PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY total_sent) OVER () AS third_quartile_sent
+FROM p2p_data
+HAVING total_sent > (AVG(total_sent) OVER () + STDDEV(total_sent) OVER ());
+  </pre>
+
+  <h2>Query 4: Integration of Online Banking Mobile Login Data</h2>
+  <p>
+    The final step integrates online banking login information—such as IP addresses and cookie data—with the previously consolidated dataset. This allows the analysis to include customer login locations and provide additional context for potential fraudulent activity.
+  </p>
+  <pre>
+-- Query 4: Join Online Banking Login Data with the Consolidated Dataset
+SELECT 
+  a.account_id,
+  a.customer_num,
+  a.open_date,
+  a.sale_amount,
+  m.login_ip,
+  m.cookie_id,
+  m.login_time
+FROM (
+  -- Consolidated dataset from Query 1 (Consumer & Business Accounts)
+  SELECT account_id, customer_num, open_date, sale_amount
+  FROM consolidated_accounts
+) a
+LEFT JOIN mobile_logins m
+  ON a.account_id = m.account_id;
+  </pre>
+
+  <h2>Next Steps</h2>
+  <p>
+    With this robust Teradata SQL dataset in place, the subsequent phase will involve applying Python logic to visually map out customer login locations. This Python component will further illustrate the customer's whereabouts based on mobile login data and will be developed in a follow-up exercise.
+  </p>
+</body>
+</html>
