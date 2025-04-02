@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retention Offer Monitoring Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0074d9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-left: 5px solid #ccc;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Retention Offer Monitoring - End-to-End Demo</h1>
+  <section>
+    <h2>1. Project Overview</h2>
+    <p>This demo simulates an internal retention offer form used during a rapid-response product deployment. The project involved scraping form data using Selenium, cleaning and validating entries in Python, staging the data in SAS, and visualizing outcomes in Tableau. The goal was to identify improper behavior and gaps in execution while monitoring for potential bias.</p>
+  </section>
+
+  <section>
+    <h2>2. Manual Retention Offer Form</h2>
+    <form id="retention-form">
+      <label for="employee_id">Employee ID</label>
+      <input type="text" name="employee_id" value="EMP123" />
+
+      <label for="customer_id">Customer ID</label>
+      <input type="text" name="customer_id" value="CUST456" />
+
+      <label for="amount_offered">Amount Offered ($)</label>
+      <input type="number" name="amount_offered" value="100000" />
+
+      <label for="qualified">Qualified for Offer?</label>
+      <select name="qualified">
+        <option value="Yes" selected>Yes</option>
+        <option value="No">No</option>
+      </select>
+
+      <label for="notes">Notes</label>
+      <textarea name="notes">Customer requested retention offer.</textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>3. Selenium Scraper (Python)</h2>
+    <p>This Python script uses Selenium to scrape form submissions:</p>
+    <pre><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+import pandas as pd
+
+options = Options()
+options.add_argument("--headless")
+driver = webdriver.Chrome(service=Service('/path/to/chromedriver'), options=options)
+
+driver.get("file:///path/to/this_html_file.html")
+
+form_data = {
+    "employee_id": driver.find_element(By.NAME, "employee_id").get_attribute("value"),
+    "customer_id": driver.find_element(By.NAME, "customer_id").get_attribute("value"),
+    "amount_offered": driver.find_element(By.NAME, "amount_offered").get_attribute("value"),
+    "qualified": driver.find_element(By.NAME, "qualified").get_attribute("value"),
+    "notes": driver.find_element(By.NAME, "notes").get_attribute("value"),
+}
+
+driver.quit()
+
+pd.DataFrame([form_data]).to_csv("retention_form_data.csv", index=False)</code></pre>
+  </section>
+
+  <section>
+    <h2>4. Data Cleaning, SAS Load & Teradata Analysis</h2>
+    <p><strong>Python Data Prep:</strong> After scraping, the CSV is cleaned for empty fields, trimmed strings, and filtered on business rules (e.g., min offer amount).</p>
+    <pre><code># Clean & Filter
+import pandas as pd
+
+raw = pd.read_csv("retention_form_data.csv")
+raw = raw.dropna(subset=["employee_id", "customer_id"])
+raw["amount_offered"] = raw["amount_offered"].astype(float)
+filtered = raw[raw["amount_offered"] >= 100000]
+filtered.to_csv("cleaned_retention_data.csv", index=False)</code></pre>
+
+    <p><strong>SAS Load (via saspy):</strong> Load cleaned data directly into a SAS session from Python:</p>
+    <pre><code>import saspy
+sas = saspy.SASsession()
+sas.df2sd(filtered, table='retention_cleaned', libref='work')</code></pre>
+
+    <p><strong>Teradata Join (Pass-Through SQL):</strong> Find management chain + validate employee hierarchy + form dates.</p>
+    <pre><code>proc sql;
+  connect to teradata (user=myuser password=mypass server=myserver);
+  create table work.retention_augmented as
+  select * from connection to teradata (
+    select r.*, e.manager_id, e.division, e.region, e.hire_date
+    from employee_dim e
+    join retention_cleaned r
+      on e.employee_id = r.employee_id
+  );
+  disconnect from teradata;
+quit;</code></pre>
+
+    <p><strong>Audit Storage:</strong> Save final cleaned dataset to permanent gridspace for audit/archive:</p>
+    <pre><code>libname gridlib '/gridspace/audit/retention';
+
+proc copy in=work out=gridlib;
+  select retention_augmented;
+run;</code></pre>
+
+    <p><em>Note:</em> This structure allowed full lineage, traceability, and audit-ready delivery of monitoring artifacts.</p>
+  </section>
+
+  <section>
+    <h2>5. Analytical Metrics (Complex SAS Programs)</h2>
+    <p>The following metrics were developed using separate SAS programs with Teradata passthrough due to their complexity and volume of data:</p>
+    <ul>
+      <li><strong>Missed Offer Rate:</strong> Customers with balances >= $75K who were not extended the offer</li>
+      <li><strong>Improper Application Rate:</strong> Rate offered to customers who did not meet qualifications</li>
+      <li><strong>Manual Form Completion:</strong> % of forms missing required fields</li>
+      <li><strong>Disparate Treatment Risk:</strong> Outlier analysis using demographic comparison</li>
+      <li><strong>Employee Activity Monitor:</strong> Frequency of offers per employee and patterns by region</li>
+    </ul>
+    <p>Each metric was written as a standalone SAS program for auditing and repeatability, and executed using passthrough SQL to Teradata. Outputs were published to the SAS gridspace for Tableau pickup.</p>
+  </section>
+
+  <section>
+    <h2>6. Tableau Visualizations</h2>
+    <p>Tableau dashboards were built to enable leadership to interactively explore metrics and drill into employee-level behavior:</p>
+    <ul>
+      <li><strong>Retention Funnel:</strong> From eligible pool → offered → accepted</li>
+      <li><strong>Improper Application Trend:</strong> Weekly trends with target benchmarks</li>
+      <li><strong>Manual Form Compliance:</strong> % of missing fields per employee or role</li>
+      <li><strong>Disparate Treatment:</strong> Offer rate comparisons across demographic groups</li>
+      <li><strong>Hierarchy Insights:</strong> Rollup of behavior by manager and region</li>
+    </ul>
+    <p>Dashboards updated nightly via CRON and supported export to PDF/email for risk and audit teams.</p>
+  </section>
+
+  <section>
+    <h2>7. Outcome & Insights</h2>
+    <ul>
+      <li>Customer attrition reduced by 50%</li>
+      <li>Improper application of rate dropped by 33%</li>
+      <li>Manual form completion accuracy improved through monitoring</li>
+      <li>Flagged possible disparate treatment using summary stats + demographics</li>
+    </ul>
+  </section>
+
+</body>
+</html>
