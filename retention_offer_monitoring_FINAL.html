@@ -94,29 +94,134 @@
   <section>
     <h2>3. Selenium Scraper (Python)</h2>
     <p>This Python script uses Selenium to scrape form submissions:</p>
-    <pre><code>from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
+    <pre><code>"""
+
+"""
+
+
+
+headers = {'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
+
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import pandas as pd
+from time import sleep
+from datetime import datetimeimport os
+import saspy
+import glob
+import schedule
 
-options = Options()
-options.add_argument("--headless")
-driver = webdriver.Chrome(service=Service('/path/to/chromedriver'), options=options)
+def open_chrome():
+    """function opens chrome and downloads the data into a local downloads file on machine"""
+    chrome_options = Options()
+    chrome_options.add.argument('disable-notifications')
+    chrome_options.add.argument('start-maximized')
+    chrome_options.add.argument('user-data-dir=C:\\Users\\{}\\AppData\\Local\\Google\\Chrome\\User Date\\Default'.format(username))
+    
+    # to disable the message, "Chrome is being controlled by automated test software"
+    chrome_options.add.argument('disable-infobars')
+    # Pass the argument 1 to allow and 2 to block
+    chrome_options.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2})
+    
+    # online form
+    base_url = 'https:internalwebsite.fake\search.aspx'
+    
+    # invoke the webdriver - this will open Google
+    chrome_driver = webdriver.Chrome(executable_path=r'z:/chrome_driver.exe', opetions=chrome_options)
+    
+    # this will open the form
+    chrome_driver.get(base_url)
+    sleep(30)
+    
+    # this will pass the form number
+    key = chrome_driver.find_element("xpath","//input[@name='searchFor']"
+    key.send_keys(123456)
+    
+    # this will clock the search data button
+    butt = chrome_driver.find_element("xpath","//input[@name='searchBtn']"
+    butt.click()
+    sleep(10)
+    
+    # this will click the get data button
+    get_data_butt = chrome_driver.find_element("xpath","//input[@name='BodyPage']"
+    get_data_butt.click()
+    sleep(10)
+    
+    # this will click the get data button
+    get_data_butt = chrome_driver.find_element("xpath","//input[@name='BodyPage']"
+    get_data_butt.click()
+    sleep(10)
+    
+    # this will sort the data. Note, must be cicked twice
+    sort_date = chrome_driver.find_element("xpath","//tr[@class='GridHeader']//th[4]//a")
+    sort_data.click()
+    sleep(10)
+    sort_date2 = chrome_driver.find_element("xpath","//tr[@class='GridHeader']//th[4]//a")
+    sort_data2.click()
+    sleep(10)
+    
+    # this will click the get unread data
+    get_unread_butt = chrome_driver.find_element("xpath","//input[@name='GetUnread']"
+    get_unread_butt.click()
+    sleep(10)
+    
+    # this will select the download button
+    get_dwnload_butt = chrome_driver.find_element("xpath","//input[@name='DownloadData']"
+    get_dwnload_butt.click()
+    sleep(30)
+    
+    print("open chrome and download compelte")
+       
+def grab_max():
+    """grab the latest file from the downloads folder"""
+    list_of_files = glob.glob('C:\\Users\\{}\\Downloads\\*'.format(username) # * means all... if need specific format then *.csv
+    latest_file = max(list_of_files, key=os.path.gettime)
+    # rename the lateste file with today's datetime
+    os.rename(latest_file, new_file)
+    
+def sas():
+    sas = saspy.SASsession(cfgfile='C:\\Users\\{}\\AppData\\Roaming\\Python\\Python37\\site-packages\\saspy\\sascfg_iomcom.py'.format(username), user=sas_user_id, pw=password)
+    sas.upload(new_file, remote_path)
+    sas.endsas
+    
+ def job():
+     print("I am working...", str(datetime.now()), open_chrome(), grab_max(), sas())
+       
+# define variables
+username = os.getlogin()
+password = 'password'
+sas_user_id=os.getlogin()
+date=datetime.today().strftime('%Y%m%d')
+cat_dt_tm=date+str(round(datetime.today().timestamp()))
+new_file = "C:\\Users\\{}\\Downloads\\123456_{}.CSV".format(username,cat_dt_tm)
+remote_path = "/works/area/div/strat/project/specificproject/input/autofile/123456_{}.CSV".format(username,cat_dt_tm)
+nowtime = str(datetime.now())
 
-driver.get("file:///path/to/this_html_file.html")
+# ensure the job only runs on a weekday
+schedule.every().monday.do(job)
+schedule.every().tuesday.do(job)
+schedule.every().wednesday.do(job)
+schedule.every().thursday.do(job)
+schedule.every().friday.do(job)
 
-form_data = {
-    "employee_id": driver.find_element(By.NAME, "employee_id").get_attribute("value"),
-    "customer_id": driver.find_element(By.NAME, "customer_id").get_attribute("value"),
-    "amount_offered": driver.find_element(By.NAME, "amount_offered").get_attribute("value"),
-    "qualified": driver.find_element(By.NAME, "qualified").get_attribute("value"),
-    "notes": driver.find_element(By.NAME, "notes").get_attribute("value"),
-}
+# ensure the job runs by delaying 3 seconds, otherwise miliseconds will be > start time
 
-driver.quit()
+# add loop to run the job function which runs all other functions
 
-pd.DataFrame([form_data]).to_csv("retention_form_data.csv", index=False)</code></pre>
+n=0
+
+while True:
+    # add if to ensure it doesn't keep running every 3 seconds
+    if n==0:
+        schedule.run_pending()
+        sleep(1)
+        n+=1
+    else:
+        print("I'm exiting...")
+        break
+        
+exit()        
+      
+       </code></pre>
   </section>
 
   <section>
