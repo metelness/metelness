@@ -1,0 +1,133 @@
+<div class="project">
+  <h1>Conflict of Interest Detection Framework</h1>
+  <p>
+    This initiative involved designing three independent data-driven strategies to uncover potential conflicts of interest, ethical violations, and financial crimes involving employees and customers. Each project was built using SQL and SAS logic with Tableau dashboards for executive reporting.
+  </p>
+
+  <!-- Project 1 -->
+  <h2>1. Detecting Preferential Treatment</h2>
+  <h3>Situation</h3>
+  <p>
+    Concerns were raised that employees might be providing special services to customers with whom they have personal relationships.
+  </p>
+  <h3>Task</h3>
+  <p>
+    Build logic to detect shared addresses, contact details, and account relationships between employees and customers to uncover hidden personal ties.
+  </p>
+  <h3>Action</h3>
+  <p>
+    SQL and SAS were used to join and score potential matches based on shared identifiers such as address, phone, email, bank account, and financial transactions.
+  </p>
+
+  <h4>SQL Example</h4>
+  <pre><code>CREATE VOLATILE TABLE pref_treatment_flags AS (
+  SELECT e.emp_id, c.cust_id,
+         CASE WHEN e.home_address = c.home_address THEN 1 ELSE 0 END AS addr_match,
+         CASE WHEN e.phone = c.phone THEN 1 ELSE 0 END AS phone_match,
+         CASE WHEN e.email = c.email THEN 1 ELSE 0 END AS email_match,
+         CASE WHEN e.bank_acct = c.bank_acct THEN 1 ELSE 0 END AS acct_match,
+         CASE WHEN t.sender_id = c.cust_id AND t.recipient_id = e.emp_id THEN 1 ELSE 0 END AS p2p_link
+  FROM emp_data e
+  JOIN cust_data c ON e.branch_id = c.branch_id
+  LEFT JOIN transactions t ON c.cust_id = t.sender_id
+) WITH DATA PRIMARY INDEX (emp_id) ON COMMIT PRESERVE ROWS;
+
+SELECT *,
+       addr_match + phone_match + email_match + acct_match + p2p_link AS match_score
+FROM pref_treatment_flags
+WHERE match_score >= 2;</code></pre>
+
+  <h4>Tableau Output</h4>
+  <ul>
+    <li>Bar chart: Flagged pairs by branch</li>
+    <li>Scatter: Employee vs Customer with match score</li>
+    <li>Table: Match type breakdown</li>
+  </ul>
+
+  <h3>Result</h3>
+  <p>
+    Detected 240 suspicious relationships. 5 confirmed as breaches of ethics. Strategy embedded in enterprise monitoring.
+  </p>
+
+  <!-- Project 2 -->
+  <h2>2. Identifying Monetary Gifts from Customers</h2>
+  <h3>Situation</h3>
+  <p>
+    Reports emerged suggesting employees may be receiving monetary gifts or unauthorized payments from customers.
+  </p>
+  <h3>Task</h3>
+  <p>
+    Determine if employees received transactions from customers tied to their branch or recent servicing activity.
+  </p>
+  <h3>Action</h3>
+  <p>
+    Used transaction logs and servicing metadata to identify cases where customers initiated transfers, gifts, or repeated payments to employees.
+  </p>
+
+  <h4>SQL Example</h4>
+  <pre><code>SELECT 
+  t.transaction_id,
+  t.sender_id AS customer_id,
+  t.recipient_id AS employee_id,
+  t.amount,
+  t.date,
+  c.branch_id
+FROM transactions t
+JOIN emp_data e ON t.recipient_id = e.emp_id
+JOIN cust_data c ON t.sender_id = c.cust_id
+WHERE t.type IN ('P2P', 'Check')
+  AND t.amount > 50
+  AND t.date BETWEEN c.last_service_date AND c.last_service_date + INTERVAL '30' DAY;</code></pre>
+
+  <h4>Tableau Output</h4>
+  <ul>
+    <li>Timeline: Transactions by employee over time</li>
+    <li>Bubble chart: Volume and value of customer-to-employee payments</li>
+    <li>Detail: Customer name, service date, transaction info</li>
+  </ul>
+
+  <h3>Result</h3>
+  <p>
+    Discovered 18 instances of questionable payments. Two employees were terminated for violating company policy.
+  </p>
+
+  <!-- Project 3 -->
+  <h2>3. Uncovering Employee Financial Crimes Against Customers</h2>
+  <h3>Situation</h3>
+  <p>
+    A new risk emerged: employees might be exploiting customers by inserting themselves into accounts or making unauthorized changes.
+  </p>
+  <h3>Task</h3>
+  <p>
+    Create a monitoring strategy to detect if employees appeared on customer accounts unexpectedly, or acted on customers' behalf without consent.
+  </p>
+  <h3>Action</h3>
+  <p>
+    Joined system logs, account maintenance files, and phone bank records to identify unauthorized access, beneficiary changes, or account linking.
+  </p>
+
+  <h4>SQL Example</h4>
+  <pre><code>SELECT 
+  a.account_id,
+  c.cust_id,
+  e.emp_id,
+  a.added_date,
+  e.role_type,
+  CASE WHEN e.role_type = 'authorized_user' AND a.added_date > s.last_interaction THEN 'Suspicious' ELSE 'Normal' END AS risk_flag
+FROM account_access a
+JOIN cust_data c ON a.cust_id = c.cust_id
+JOIN emp_data e ON a.emp_id = e.emp_id
+JOIN service_logs s ON c.cust_id = s.cust_id;</code></pre>
+
+  <h4>Tableau Output</h4>
+  <ul>
+    <li>Red-flag dashboard: Accounts with recent employee access</li>
+    <li>Timeline: When employee appeared on account vs service activity</li>
+    <li>Call log table: Transcripts or metadata tied to risky access</li>
+  </ul>
+
+  <h3>Result</h3>
+  <p>
+    Strategy uncovered 12 employee additions to accounts post-service, with no customer consent logs. 3 were escalated to Corporate Security.
+  </p>
+</div>
